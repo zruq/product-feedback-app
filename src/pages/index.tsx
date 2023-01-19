@@ -5,10 +5,13 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Button, { GoBackButton } from "../components/shared/Button";
 import Tag from "../components/Tag";
 import Upvotes from "../components/shared/Upvote";
+import Dropdown from "../components/shared/Dropdown";
+import { useState } from "react";
 
 // import { api } from "../utils/api";
 
 const Home: NextPage = () => {
+  const [active, setActive] = useState(1);
   return (
     <>
       <Head>
@@ -16,8 +19,21 @@ const Home: NextPage = () => {
         <meta name="description" content="Mehdi Zibout" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col bg-dark-blue text-h1">
+      <main className="flex min-h-screen flex-col bg-light-grey-lighter">
         Hello, World!
+        <div className="">
+          <Dropdown
+            active={active}
+            setActive={setActive}
+            title="Sort by"
+            items={[
+              { id: 1, content: "Most Upvotes" },
+              { id: 2, content: "Least Upvotes" },
+              { id: 3, content: "Most Comments" },
+              { id: 4, content: "Least Comments" },
+            ]}
+          />
+        </div>
         <div className="">
           <Button bgColor="purple">Button 1</Button>
           <Button bgColor="blue">Button 1</Button>

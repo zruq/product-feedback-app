@@ -10,7 +10,7 @@ export function IconLeft(props: SVGProps<SVGSVGElement>) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M4 9L0 5L4 1" stroke-width="2" />
+      <path d="M4 9L0 5L4 1" strokeWidth="2" />
     </svg>
   );
 }
@@ -24,7 +24,34 @@ export function IconUp({ className, ...props }: SVGProps<SVGSVGElement>) {
       height="7"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M1 6l4-4 4 4" stroke-width="2" fill="none" fill-rule="evenodd" />
+      <path d="M1 6l4-4 4 4" strokeWidth="2" fill="none" fillRule="evenodd" />
+    </svg>
+  );
+}
+
+export function IconDown({ className, ...props }: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      className={`stroke-blue hover:stroke-blue ${className || ""}`}
+      {...props}
+      width="10"
+      height="7"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M1 1l4 4 4-4" strokeWidth="2" fill="none" fillRule="evenodd" />
+    </svg>
+  );
+}
+
+export function Checkmark({ ...props }: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="13" height="11">
+      <path
+        fill="none"
+        stroke="#AD1FEA"
+        strokeWidth="2"
+        d="M1 5.233L4.522 9 12 1"
+      />
     </svg>
   );
 }
