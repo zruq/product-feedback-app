@@ -32,8 +32,10 @@ export function GoBackButton({ isGhost }: { isGhost?: boolean }) {
   return (
     <Button
       className={`${
-        isGhost ? "text-greyish-blue" : "bg-[#373F68]"
-      } flex items-center justify-center hover:bg-opacity-100 hover:underline `}
+        isGhost
+          ? "text-greyish-blue hover:bg-opacity-0"
+          : "bg-[#373F68] hover:bg-[#373F68] hover:bg-opacity-100 "
+      } flex items-center justify-center  hover:underline `}
     >
       <IconLeft
         className={` ${isGhost ? "stroke-blue" : "stroke-[#CDD2EE]"} `}
