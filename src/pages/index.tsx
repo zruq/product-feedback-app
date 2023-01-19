@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Button, { GoBackButton } from "../components/shared/Button";
+import Tag from "../components/Tag";
 
 // import { api } from "../utils/api";
 
@@ -23,6 +24,10 @@ const Home: NextPage = () => {
           <Button bgColor="red">Button 1</Button>
           <GoBackButton />
           <GoBackButton isGhost />
+        </div>
+        <div className="">
+          <Tag content="UX" />
+          <Tag content="Feature" isActive />
         </div>
       </main>
     </>
