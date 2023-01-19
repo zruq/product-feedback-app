@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Button, { GoBackButton } from "../components/shared/Button";
 
 // import { api } from "../utils/api";
 
@@ -13,8 +14,16 @@ const Home: NextPage = () => {
         <meta name="description" content="Mehdi Zibout" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col bg-black">
-        <AuthShowcase />
+      <main className="flex min-h-screen flex-col bg-light-grey-lighter text-h1">
+        Hello, World!
+        <div className="">
+          <Button bgColor="purple">Button 1</Button>
+          <Button bgColor="blue">Button 1</Button>
+          <Button bgColor="dark-blue">Button 1</Button>
+          <Button bgColor="red">Button 1</Button>
+          <GoBackButton />
+          <GoBackButton isGhost />
+        </div>
       </main>
     </>
   );
@@ -27,7 +36,7 @@ const AuthShowcase: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl text-white">
+      <p className="text-2xl text-center text-white">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
       </p>
       <button

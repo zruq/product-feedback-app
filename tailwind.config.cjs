@@ -7,11 +7,11 @@ module.exports = {
       desktop: "1200px",
     },
     colors: {
+      red: "#D73737",
       white: "#fff",
       purple: "#AD1FEA",
       blue: "#4661E6",
-      "dark-blue": "#4661E6",
-      "dark-blue-darker": "#3A4374",
+      "dark-blue": "#3A4374",
       "light-grey": "#F2F4FF",
       "light-grey-lighter": "#F7F8FD",
       orange: "#F49F85",
@@ -40,7 +40,7 @@ module.exports = {
       body3: ["0.81rem", { lineHeight: "1.18rem" }],
     },
     fontFamily: {
-      sans: ["Jost", "sans-serif"],
+      sans: ["var(--font-jost)", "sans-serif"],
     },
     extend: {},
   },

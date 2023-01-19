@@ -6,14 +6,14 @@ import { api } from "../utils/api";
 
 import "../styles/globals.css";
 
-const jost = Jost({ subsets: ["latin"] });
+const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
     <SessionProvider session={session}>
-      <main className={jost.className}>
+      <main className={`${jost.variable} font-sans`}>
         <Component {...pageProps} />
       </main>
     </SessionProvider>
