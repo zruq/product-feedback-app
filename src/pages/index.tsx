@@ -1,25 +1,24 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
-import Button, { GoBackButton } from "../components/shared/Button";
-import Tag from "../components/Tag";
-import Upvotes from "../components/shared/Upvote";
-import Dropdown from "../components/shared/Dropdown";
-import { useState } from "react";
-import Card from "../components/shared/Card";
+
+import { useEffect, useState } from "react";
 
 import { api } from "../utils/api";
-import TagCard from "../components/shared/TagCard";
 import Sidebar from "../components/Sidebar";
 import SuggestionCard from "../components/SuggestionCard";
 import Topbar from "../components/Topbar";
 
 const Home: NextPage = () => {
-  const [active, setActive] = useState(1);
-  const { data: latestSuggestions } =
+  const { data: latestSuggestions, isSuccess } =
     api.router.getLatestSuggestions.useQuery();
-  console.log(latestSuggestions);
+  const [visibleSuggestions, setVisibleSuggestions] = useState<
+    SuggestionOverview[]
+  >(latestSuggestions || []);
+
+  useEffect(() => {
+    if (isSuccess) setVisibleSuggestions(latestSuggestions);
+  }, [isSuccess]);
   return (
     <>
       <Head>
@@ -27,14 +26,22 @@ const Home: NextPage = () => {
         <meta name="description" content="Mehdi Zibout" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="min-h-screen bg-light-grey-lighter tablet:p-5 desktop:flex desktop:items-start desktop:justify-around">
-        <Sidebar />
+      <main className="min-h-screen bg-light-grey-lighter px-6 pb-14 tablet:px-10 tablet:py-14 desktop:flex desktop:items-start desktop:justify-center desktop:py-24">
+        <Sidebar
+          suggestions={latestSuggestions || []}
+          setVisibleSuggestions={setVisibleSuggestions}
+        />
         {/* CONTENT */}
-        <div className="py-20">
-          <Topbar />
-          {latestSuggestions && latestSuggestions.length > 0 && (
-            <SuggestionCard {...latestSuggestions[0]} />
-          )}
+        <div className="desktop:ml-8 desktop:min-w-[825px]">
+          <Topbar
+            suggestions={latestSuggestions || []}
+            setVisibleSuggestions={setVisibleSuggestions}
+          />
+          {visibleSuggestions &&
+            visibleSuggestions.length > 0 &&
+            visibleSuggestions.map((suggestion) => (
+              <SuggestionCard key={suggestion.title} {...suggestion} />
+            ))}
         </div>
         {/* NAVBAR */}
         <div className=""></div>
@@ -72,6 +79,19 @@ const Home: NextPage = () => {
       </main> */}
     </>
   );
+};
+
+export type SuggestionOverview = {
+  title: string;
+  upvotes: number;
+  category: {
+    title: string;
+    id: string;
+  };
+  _count: {
+    comments: number;
+  };
+  description: string;
 };
 
 export default Home;

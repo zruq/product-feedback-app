@@ -1,3 +1,4 @@
+import { SuggestionOverview } from "../pages";
 import { Comment } from "../svgs/Icons";
 import Card from "./shared/Card";
 import Upvotes from "./shared/Upvote";
@@ -11,7 +12,7 @@ function SuggestionCard({
   _count,
 }: SuggestionCardProps) {
   return (
-    <Card className="group flex  items-start justify-start px-8 py-7">
+    <Card className="group my-5  flex items-start justify-start px-8 py-7">
       <Upvotes className="hidden tablet:block" upvotes={upvotes} />
       <div className=" flex h-full w-full flex-col justify-between  tablet:flex-row tablet:items-center ">
         <div className="pb-4 tablet:px-10 tablet:pb-0">
@@ -36,17 +37,6 @@ function SuggestionCard({
   );
 }
 
-type SuggestionCardProps = {
-  category: {
-    id: string;
-    title: string;
-  };
-  _count: {
-    comments: number;
-  };
-  title: string;
-  description: string;
-  upvotes: number;
-};
+type SuggestionCardProps = SuggestionOverview;
 
 export default SuggestionCard;

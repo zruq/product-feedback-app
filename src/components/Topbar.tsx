@@ -1,6 +1,8 @@
 // import Card from "./shared/Card";
 
 import { useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import type { SuggestionOverview } from "../pages";
 import { IconDown, IconUp, SuggestionIcon } from "../svgs/Icons";
 import Button from "./shared/Button";
 import DropdownList from "./shared/DropdownList";
@@ -12,11 +14,11 @@ const items = [
   { id: 4, content: "Least Comments" },
 ];
 
-function Topbar() {
+function Topbar({ suggestions, setVisibleSuggestions }: TopbarProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [active, setActive] = useState(1);
   return (
-    <div className="flex items-center justify-between bg-[#373F68] py-2 px-6 tablet:rounded-[10px] tablet:py-[14px] ">
+    <div className="-mx-6 flex w-screen items-center justify-between bg-[#373F68] py-2 px-6 tablet:-mx-0 tablet:w-auto tablet:rounded-[10px] tablet:py-[14px] ">
       <div className="flex items-center justify-center">
         <div className="hidden items-center justify-center tablet:flex ">
           <SuggestionIcon />
@@ -28,10 +30,9 @@ function Topbar() {
             setShowDropdown(!showDropdown);
           }}
           className={
-            "relative flex items-center bg-opacity-0 hover:bg-opacity-0  hover:text-opacity-75 tablet:mt-0.5 " +
+            "relative flex items-center hover:bg-[#373F68] hover:text-opacity-75 tablet:mt-0.5 " +
             (showDropdown ? "text-opacity-75" : "")
           }
-          bgColor="dark-blue"
         >
           <div className="mr-2">
             <span className="font-normal">Sort by : </span>{" "}
@@ -49,7 +50,7 @@ function Topbar() {
               setShowDropDown={setShowDropdown}
               showDropDown={showDropdown}
               active={active}
-              setActive={setActive}
+              setActive={handleDropdownClick}
               items={items}
             />
           )}
@@ -63,6 +64,37 @@ function Topbar() {
       </Button>
     </div>
   );
+
+  function handleDropdownClick(i: number) {
+    setActive(i);
+    const suggestionsCopy = [...suggestions];
+    switch (i) {
+      case 2:
+        setVisibleSuggestions(
+          suggestionsCopy.sort((a, b) => a.upvotes - b.upvotes)
+        );
+        break;
+      case 3:
+        setVisibleSuggestions(
+          suggestionsCopy.sort((a, b) => b._count.comments - a._count.comments)
+        );
+        break;
+      case 4:
+        setVisibleSuggestions(
+          suggestionsCopy.sort((a, b) => a._count.comments - b._count.comments)
+        );
+        break;
+      default:
+        setVisibleSuggestions(
+          suggestionsCopy.sort((a, b) => b.upvotes - a.upvotes)
+        );
+        break;
+    }
+  }
 }
 
+type TopbarProps = {
+  setVisibleSuggestions: Dispatch<SetStateAction<SuggestionOverview[]>>;
+  suggestions: SuggestionOverview[];
+};
 export default Topbar;

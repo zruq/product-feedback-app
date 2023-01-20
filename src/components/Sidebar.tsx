@@ -2,17 +2,20 @@ import { api } from "../utils/api";
 import Card from "./shared/Card";
 import Tag from "./Tag";
 import { useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { Close, HamMenu } from "../svgs/Icons";
+import type { SuggestionOverview } from "../pages";
 
-function Sidebar() {
+function Sidebar({ setVisibleSuggestions, suggestions }: SidebarProps) {
   const [showSidebar, setShowSidebar] = useState(false);
+  const [active, setActive] = useState("all");
   const { data: categories } = api.router.getCategoryies.useQuery();
   return (
     <div
-      className="justify-between tablet:flex desktop:block desktop:w-[15.93rem]
+      className="justify-between tablet:mb-10 tablet:flex desktop:mb-0 desktop:block desktop:w-[15.93rem] 
    "
     >
-      <Card className="flex w-full flex-1 items-center justify-between  rounded-none bg-header-mobile bg-cover px-6 py-4 text-left tablet:rounded-[10px] tablet:bg-header-tablet tablet:p-6 desktop:h-[11.12rem]  desktop:bg-header-desktop">
+      <div className="-mx-6 flex w-screen flex-1 items-center justify-between rounded-none bg-header-mobile  bg-cover px-6 py-4 text-left tablet:-mx-0 tablet:w-full tablet:rounded-[10px] tablet:bg-header-tablet tablet:p-6 desktop:h-[11.12rem]  desktop:bg-header-desktop">
         <div className=" flex h-full flex-col items-start  justify-end text-white">
           <h3 className="text-h2">Frontend Mentor</h3>
           <h4 className="text-body2 font-medium text-white text-opacity-75">
@@ -32,8 +35,15 @@ function Sidebar() {
             />
           )}
         </div>
-      </Card>
-      <CatsCard className="hidden" categories={categories} />
+      </div>
+      <CatsCard
+        active={active}
+        setActive={setActive}
+        suggestions={suggestions}
+        setVisibleSuggestions={setVisibleSuggestions}
+        className="hidden"
+        categories={categories}
+      />
       <RoadmapCard className="hidden" />
       {showSidebar && (
         <div
@@ -44,7 +54,14 @@ function Sidebar() {
             className="w-3/4 bg-light-grey-lighter p-6"
             onClick={(e) => e.stopPropagation()}
           >
-            <CatsCard className="mb-6" categories={categories} />
+            <CatsCard
+              active={active}
+              setActive={setActive}
+              suggestions={suggestions}
+              setVisibleSuggestions={setVisibleSuggestions}
+              className="mb-6"
+              categories={categories}
+            />
             <RoadmapCard />
           </div>
         </div>
@@ -53,12 +70,25 @@ function Sidebar() {
   );
 }
 
+type SidebarProps = {
+  setVisibleSuggestions: Dispatch<SetStateAction<SuggestionOverview[]>>;
+  suggestions: SuggestionOverview[];
+};
+
 export default Sidebar;
 
 function CatsCard({
+  active,
+  setActive,
   categories,
   className,
+  setVisibleSuggestions,
+  suggestions,
 }: {
+  active: string;
+  setActive: Dispatch<SetStateAction<string>>;
+  setVisibleSuggestions: Dispatch<SetStateAction<SuggestionOverview[]>>;
+  suggestions: SuggestionOverview[];
   className?: string;
   categories:
     | {
@@ -76,13 +106,26 @@ function CatsCard({
       {categories?.length ?? 0 > 0 ? (
         <>
           <Tag
+            onClick={() => {
+              setActive("all");
+              setVisibleSuggestions(suggestions);
+            }}
             className="mb-3 mr-2 capitalize"
             content="all"
             key={0}
-            isActive
+            isActive={active === "all"}
           />
           {categories?.map((category) => (
             <Tag
+              isActive={active === category.id}
+              onClick={() => {
+                setActive(category.id);
+                setVisibleSuggestions(
+                  suggestions.filter(
+                    (suggestion) => suggestion.category.id === category.id
+                  )
+                );
+              }}
               className="mb-3 mr-2 capitalize"
               content={category.title}
               key={category.id}

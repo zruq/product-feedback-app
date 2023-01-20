@@ -42,7 +42,7 @@ function DropdownList({
 type DropdownListProps = {
   className?: string;
   active: number;
-  setActive: Dispatch<SetStateAction<number>>;
+  setActive: (i: number) => void;
   setShowDropDown: Dispatch<SetStateAction<boolean>>;
   showDropDown: boolean;
   items: { id: number; content: string }[];
