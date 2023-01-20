@@ -6,14 +6,14 @@ function Upvotes({ upvotes, upvoted, className, ...props }: UpvotesProps) {
   return (
     <TagCard
       isActive={upvoted}
-      className={`group px-3 pt-[14px] pb-2 hover:text-dark-blue ${
+      className={`group flex items-center justify-center py-1.5 px-3 hover:text-dark-blue tablet:block tablet:pb-2 tablet:pt-[14px] ${
         upvoted ? "text-white" : "text-dark-blue "
       } text-center text-body3 font-bold  ${className || ""}`}
       {...props}
     >
       <>
         <IconUp
-          className={`mx-auto mb-2 transition duration-300 group-hover:stroke-blue
+          className={`mr-2 transition duration-300 group-hover:stroke-blue tablet:mx-auto tablet:mr-0 tablet:mb-2
             ${upvoted ? "stroke-white " : "stroke-blue "}`}
         />
         {upvotes}

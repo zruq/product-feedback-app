@@ -38,7 +38,7 @@ function Sidebar() {
       {showSidebar && (
         <div
           onClick={() => setShowSidebar(false)}
-          className="relative z-50 flex h-[calc(100vh-83px)] w-full justify-end overflow-hidden bg-[#000] bg-opacity-50  tablet:hidden"
+          className="absolute z-50 flex h-[calc(100vh-83px)] w-full justify-end overflow-hidden bg-[#000] bg-opacity-50  tablet:hidden"
         >
           <div
             className="w-3/4 bg-light-grey-lighter p-6"

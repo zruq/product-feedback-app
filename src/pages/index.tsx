@@ -26,11 +26,13 @@ const Home: NextPage = () => {
         <meta name="description" content="Mehdi Zibout" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="min-h-screen bg-light-grey-lighter tablet:p-5 desktop:flex desktop:items-start desktop:justify-center">
+      <main className="min-h-screen bg-light-grey-lighter tablet:p-5 desktop:flex desktop:items-start desktop:justify-around">
         <Sidebar />
         {/* CONTENT */}
         <div className="py-20">
-          {latestSuggestions && <SuggestionCard {...latestSuggestions[0]} />}
+          {latestSuggestions && latestSuggestions.length > 0 && (
+            <SuggestionCard {...latestSuggestions[0]} />
+          )}
         </div>
         {/* NAVBAR */}
         <div className=""></div>
