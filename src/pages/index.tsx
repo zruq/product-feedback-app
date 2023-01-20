@@ -13,6 +13,7 @@ import { api } from "../utils/api";
 import TagCard from "../components/shared/TagCard";
 import Sidebar from "../components/Sidebar";
 import SuggestionCard from "../components/SuggestionCard";
+import Topbar from "../components/Topbar";
 
 const Home: NextPage = () => {
   const [active, setActive] = useState(1);
@@ -30,6 +31,7 @@ const Home: NextPage = () => {
         <Sidebar />
         {/* CONTENT */}
         <div className="py-20">
+          <Topbar />
           {latestSuggestions && latestSuggestions.length > 0 && (
             <SuggestionCard {...latestSuggestions[0]} />
           )}

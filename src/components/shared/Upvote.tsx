@@ -13,7 +13,7 @@ function Upvotes({ upvotes, upvoted, className, ...props }: UpvotesProps) {
     >
       <>
         <IconUp
-          className={`mr-2 transition duration-300 group-hover:stroke-blue tablet:mx-auto tablet:mr-0 tablet:mb-2
+          className={`mr-2  transition duration-300 group-hover:stroke-blue tablet:mx-auto  tablet:mb-2 
             ${upvoted ? "stroke-white " : "stroke-blue "}`}
         />
         {upvotes}

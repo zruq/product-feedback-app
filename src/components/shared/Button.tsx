@@ -5,7 +5,7 @@ function Button({ className, children, bgColor, ...props }: ButtonProps) {
   return (
     <button
       {...props}
-      className={`rounded-[10px] transition duration-300 hover:bg-[#CFD7FF] ${backgroundColor()} py-3 px-11 text-h4 text-[#F2F4FE] hover:bg-opacity-75 ${
+      className={`rounded-[10px] transition duration-300 hover:bg-[#CFD7FF] ${backgroundColor()}  text-h4 text-[#F2F4FE] hover:bg-opacity-75 ${
         className || ""
       }`}
     >
