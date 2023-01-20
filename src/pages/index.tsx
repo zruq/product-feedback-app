@@ -12,9 +12,13 @@ import Card from "../components/shared/Card";
 import { api } from "../utils/api";
 import TagCard from "../components/shared/TagCard";
 import Sidebar from "../components/Sidebar";
+import SuggestionCard from "../components/SuggestionCard";
 
 const Home: NextPage = () => {
   const [active, setActive] = useState(1);
+  const { data: latestSuggestions } =
+    api.router.getLatestSuggestions.useQuery();
+  console.log(latestSuggestions);
   return (
     <>
       <Head>
@@ -25,6 +29,9 @@ const Home: NextPage = () => {
       <main className="min-h-screen bg-light-grey-lighter tablet:p-5 desktop:flex desktop:items-start desktop:justify-center">
         <Sidebar />
         {/* CONTENT */}
+        <div className="py-20">
+          {latestSuggestions && <SuggestionCard {...latestSuggestions[0]} />}
+        </div>
         {/* NAVBAR */}
         <div className=""></div>
         {/* Cards */}

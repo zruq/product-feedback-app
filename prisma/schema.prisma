@@ -93,6 +93,7 @@ model User {
     Comment       Comment[]
     posts         ProductRequest[]
     upvotedPosts  ProductRequest[] @relation("upvotes")
+    isAdmin       Boolean          @default(false)
 }
 
 model VerificationToken {
