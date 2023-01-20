@@ -42,7 +42,14 @@ module.exports = {
     fontFamily: {
       sans: ["var(--font-jost)", "sans-serif"],
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "header-desktop":
+          "url(/backgroud-header/desktop/background-header.png)",
+        "header-tablet": "url(/backgroud-header/tablet/background-header.png)",
+        "header-mobile": "url(/backgroud-header/mobile/background-header.png)",
+      },
+    },
   },
   plugins: [],
 };

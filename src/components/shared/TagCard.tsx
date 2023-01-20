@@ -1,8 +1,4 @@
-import type {
-  ButtonHTMLAttributes,
-  DetailedHTMLProps,
-  ReactElement,
-} from "react";
+import type { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
 
 function TagCard({ isActive, children, className, ...props }: TagProps) {
   return (
@@ -21,7 +17,7 @@ function TagCard({ isActive, children, className, ...props }: TagProps) {
 
 type TagProps = {
   isActive?: boolean;
-  children: ReactElement;
+  children: ReactNode;
 } & DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
