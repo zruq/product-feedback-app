@@ -11,10 +11,9 @@ import Card from "../components/shared/Card";
 
 import { api } from "../utils/api";
 import TagCard from "../components/shared/TagCard";
+import Sidebar from "../components/Sidebar";
 
 const Home: NextPage = () => {
-  const { data: categories } = api.router.getCategoryies.useQuery();
-  console.log(categories);
   const [active, setActive] = useState(1);
   return (
     <>
@@ -23,47 +22,8 @@ const Home: NextPage = () => {
         <meta name="description" content="Mehdi Zibout" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="min-h-screen bg-light-grey-lighter desktop:flex desktop:items-start desktop:justify-center">
-        {/* SIDEBAR */}
-        <div className="justify-between tablet:flex desktop:block">
-          <Card className="w-full flex-1 rounded-none bg-header-mobile bg-cover px-6 py-4 text-left tablet:rounded-[10px] tablet:bg-header-tablet tablet:p-6 desktop:w-[255px] desktop:bg-header-desktop">
-            <div className="text-white desktop:pt-9">
-              <h3 className="text-h2">Frontend Mentor</h3>
-              <h4 className="text-body2 font-medium text-white text-opacity-75">
-                Feedback Board
-              </h4>
-            </div>
-          </Card>
-          <Card className="w-full flex-1 px-6  py-4 text-left tablet:mx-[10px] tablet:p-6 desktop:my-6 desktop:mx-0 desktop:w-[255px]">
-            {categories?.length ?? 0 > 0 ? (
-              <>
-                <Tag
-                  className="mb-3 mr-2 capitalize"
-                  content="all"
-                  key={0}
-                  isActive
-                />
-                {categories?.map((category) => (
-                  <Tag
-                    className="mb-3 mr-2 capitalize"
-                    content={category.title}
-                    key={category.id}
-                  />
-                ))}
-              </>
-            ) : (
-              "no cats yet"
-            )}
-          </Card>
-          <Card className="w-full flex-1 rounded-none bg-header-mobile bg-cover px-6 py-4 text-left tablet:rounded-[10px] tablet:bg-header-tablet tablet:p-6 desktop:w-[255px] desktop:bg-header-desktop">
-            <div className="text-white desktop:pt-9">
-              <h3 className="text-h2">Frontend Mentor</h3>
-              <h4 className="text-body2 font-medium text-white text-opacity-75">
-                Feedback Board
-              </h4>
-            </div>
-          </Card>
-        </div>
+      <main className="min-h-screen bg-light-grey-lighter tablet:p-5 desktop:flex desktop:items-start desktop:justify-center">
+        <Sidebar />
         {/* CONTENT */}
         {/* NAVBAR */}
         <div className=""></div>
