@@ -10,12 +10,24 @@ import SuggestionCard from "../components/SuggestionCard";
 import Topbar from "../components/Topbar";
 
 const Home: NextPage = () => {
+  const { status } = useSession();
+  console.log("hoohheheee", status);
   const { data: latestSuggestions, isSuccess } =
     api.router.getLatestSuggestions.useQuery();
+  const { data: upvotedArr } = api.router.getUpvotedPosts.useQuery();
   const [visibleSuggestions, setVisibleSuggestions] = useState<
     SuggestionOverview[]
   >(latestSuggestions || []);
-
+  const [upvotedPosts, setUpvotedPosts] = useState<
+    {
+      feedbackId: number;
+    }[]
+  >([]);
+  useEffect(() => {
+    if (status === "authenticated") {
+      setUpvotedPosts(upvotedArr || []);
+    }
+  }, [status]);
   useEffect(() => {
     if (isSuccess) setVisibleSuggestions(latestSuggestions);
   }, [isSuccess]);
@@ -40,7 +52,12 @@ const Home: NextPage = () => {
           {visibleSuggestions &&
             visibleSuggestions.length > 0 &&
             visibleSuggestions.map((suggestion) => (
-              <SuggestionCard key={suggestion.title} {...suggestion} />
+              <SuggestionCard
+                key={suggestion.title}
+                {...suggestion}
+                upvotedPosts={upvotedPosts}
+                setUpvotedPosts={setUpvotedPosts}
+              />
             ))}
         </div>
         {/* NAVBAR */}
@@ -82,16 +99,18 @@ const Home: NextPage = () => {
 };
 
 export type SuggestionOverview = {
-  title: string;
-  upvotes: number;
   category: {
     title: string;
     id: string;
   };
+  title: string;
+  description: string;
+  upvotes: number;
   _count: {
+    Upvotes: number;
     comments: number;
   };
-  description: string;
+  id: number;
 };
 
 export default Home;

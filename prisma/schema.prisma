@@ -16,7 +16,16 @@ model ProductRequest {
   categoryId  String
   comments    Comment[]
   category    Category  @relation(fields: [categoryId], references: [id])
-  upvoters    User[]    @relation("ProductRequestToUser")
+  Upvotes     Upvotes[]
+}
+
+model Upvotes {
+  feedback   ProductRequest @relation(fields: [feedbackId], references: [id])
+  feedbackId Int
+  upvoter    User           @relation(fields: [upvotedId], references: [id])
+  upvotedId  String
+
+  @@id([feedbackId, upvotedId])
 }
 
 model Category {
@@ -64,17 +73,17 @@ model Session {
 }
 
 model User {
-  id            String           @id @default(cuid())
-  username      String?          @unique
+  id            String    @id @default(cuid())
+  username      String?   @unique
   name          String?
-  email         String?          @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
-  isAdmin       Boolean          @default(false)
+  isAdmin       Boolean   @default(false)
   accounts      Account[]
   Comment       Comment[]
   sessions      Session[]
-  upvotedPosts  ProductRequest[] @relation("ProductRequestToUser")
+  Upvotes       Upvotes[]
 }
 
 model VerificationToken {

@@ -19,7 +19,7 @@ export function IconUp({ className, ...props }: SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
-      className={`stroke-blue hover:stroke-blue ${className || ""}`}
+      className={` ${className || ""}`}
       width="10"
       height="7"
       xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +32,7 @@ export function IconUp({ className, ...props }: SVGProps<SVGSVGElement>) {
 export function IconDown({ className, ...props }: SVGProps<SVGSVGElement>) {
   return (
     <svg
-      className={`stroke-blue hover:stroke-blue ${className || ""}`}
+      className={` ${className || ""}`}
       {...props}
       width="10"
       height="7"
