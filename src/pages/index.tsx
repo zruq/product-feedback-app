@@ -8,10 +8,11 @@ import { api } from "../utils/api";
 import Sidebar from "../components/Sidebar";
 import SuggestionCard from "../components/SuggestionCard";
 import Topbar from "../components/Topbar";
+import NoFeedback from "../components/NoFeedback";
 
 const Home: NextPage = () => {
-  const { status } = useSession();
-  console.log("hoohheheee", status);
+  const { data, status } = useSession();
+  console.log("hoohhsaaeheee", data);
   const { data: latestSuggestions, isSuccess } =
     api.router.getLatestSuggestions.useQuery();
   const { data: upvotedArr } = api.router.getUpvotedPosts.useQuery();
@@ -27,7 +28,7 @@ const Home: NextPage = () => {
     if (status === "authenticated") {
       setUpvotedPosts(upvotedArr || []);
     }
-  }, [status]);
+  }, [upvotedArr, status]);
   useEffect(() => {
     if (isSuccess) setVisibleSuggestions(latestSuggestions);
   }, [isSuccess]);
@@ -46,11 +47,10 @@ const Home: NextPage = () => {
         {/* CONTENT */}
         <div className="desktop:ml-8 desktop:min-w-[825px]">
           <Topbar
-            suggestions={latestSuggestions || []}
+            suggestions={visibleSuggestions || []}
             setVisibleSuggestions={setVisibleSuggestions}
           />
-          {visibleSuggestions &&
-            visibleSuggestions.length > 0 &&
+          {visibleSuggestions && visibleSuggestions.length > 0 ? (
             visibleSuggestions.map((suggestion) => (
               <SuggestionCard
                 key={suggestion.title}
@@ -58,7 +58,10 @@ const Home: NextPage = () => {
                 upvotedPosts={upvotedPosts}
                 setUpvotedPosts={setUpvotedPosts}
               />
-            ))}
+            ))
+          ) : (
+            <NoFeedback />
+          )}
         </div>
         {/* NAVBAR */}
         <div className=""></div>

@@ -31,10 +31,6 @@ export const router = createTRPCRouter({
     });
   }),
 
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
-  }),
-
   getUpvotedPosts: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.upvotes.findMany({
       where: { upvotedId: ctx.session.user.id },

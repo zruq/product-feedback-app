@@ -14,7 +14,7 @@ const items = [
   { id: 4, content: "Least Comments" },
 ];
 
-function Topbar({ suggestions, setVisibleSuggestions }: TopbarProps) {
+function Topbar({ setVisibleSuggestions, suggestions }: TopbarProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [active, setActive] = useState(1);
   return (
@@ -22,7 +22,9 @@ function Topbar({ suggestions, setVisibleSuggestions }: TopbarProps) {
       <div className="flex items-center justify-center">
         <div className="hidden items-center justify-center tablet:flex ">
           <SuggestionIcon />
-          <h3 className="ml-4 mr-9 text-h3 text-white">6 Suggestions</h3>
+          <h3 className="ml-4 mr-9 text-h3 text-white">
+            {suggestions.length} Suggestions
+          </h3>
         </div>
         <Button
           onClick={(e) => {
