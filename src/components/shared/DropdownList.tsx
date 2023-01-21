@@ -16,10 +16,10 @@ function DropdownList({
         setShowDropDown(false);
       }
     });
-  }, [showDropDown]);
+  }, [showDropDown, setShowDropDown]);
   return (
     <ul
-      className={`absolute  w-[255px] rounded-[10px] bg-white text-body1  text-greyish-blue ${
+      className={`absolute   rounded-[10px] bg-white text-body1  text-greyish-blue ${
         className || ""
       }`}
       style={{
@@ -28,10 +28,13 @@ function DropdownList({
     >
       {items.map((item) => (
         <li
+          onClick={() => {
+            setActive(item.id);
+          }}
           key={item.id}
-          className={`flex items-center justify-between border-b border-dark-blue border-opacity-[0.15] py-3 px-6  last-of-type:border-b-0 hover:text-purple `}
+          className={`flex items-center justify-between border-b border-dark-blue border-opacity-[0.15]  py-3 px-6  last-of-type:border-b-0 hover:text-purple `}
         >
-          <div onClick={() => setActive(item.id)}>{item.content}</div>
+          <div className="capitalize">{item.title}</div>
           {item.id === active && <Checkmark />}
         </li>
       ))}
@@ -41,10 +44,10 @@ function DropdownList({
 
 type DropdownListProps = {
   className?: string;
-  active: number;
-  setActive: (i: number) => void;
+  active: string;
+  setActive: (i: string) => void;
   setShowDropDown: Dispatch<SetStateAction<boolean>>;
   showDropDown: boolean;
-  items: { id: number; content: string }[];
+  items: { id: string; title: string }[];
 };
 export default DropdownList;
