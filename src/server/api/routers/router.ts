@@ -30,6 +30,26 @@ export const router = createTRPCRouter({
       });
     }),
 
+  getFeedback: publicProcedure.input(z.number()).query(({ ctx, input }) => {
+    return ctx.prisma.productRequest.findUnique({
+      where: { id: input },
+      select: {
+        upvotes: true,
+        _count: { select: { Upvotes: true, comments: true } },
+        title: true,
+        description: true,
+        category: { select: { id: true, title: true } },
+        comments: {
+          select: {
+            commentId: true,
+            content: true,
+            replyingTo: true,
+            user: { select: { image: true, name: true, username: true } },
+          },
+        },
+      },
+    });
+  }),
   getLatestSuggestions: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.productRequest.findMany({
       where: { status: { equals: "SUGGESTION" } },

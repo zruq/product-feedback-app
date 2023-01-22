@@ -32,9 +32,9 @@ function Button({ className, children, bgColor, ...props }: ButtonProps) {
 export function GoBackButton({ isGhost }: { isGhost?: boolean }) {
   return (
     <Button
-      className={`${
+      className={` ${
         isGhost
-          ? "text-greyish-blue hover:bg-opacity-0"
+          ? "text-[#647196] hover:bg-opacity-0"
           : "bg-[#373F68] hover:bg-[#373F68] hover:bg-opacity-100 "
       } flex items-center justify-center  hover:underline `}
     >

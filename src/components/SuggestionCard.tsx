@@ -27,11 +27,14 @@ function SuggestionCard({
         upvoted={upvoted}
         onClick={() => {
           if (!upvoted) {
-            setUpvotedPosts(upvotedPosts.concat(id));
+            setUpvotedPosts && setUpvotedPosts(upvotedPosts.concat(id));
             setUpvotesState(upvotesState + 1);
             upvote.mutate(id);
           } else {
-            setUpvotedPosts(upvotedPosts.filter((feedback) => feedback !== id));
+            setUpvotedPosts &&
+              setUpvotedPosts(
+                upvotedPosts.filter((feedback) => feedback !== id)
+              );
             setUpvotesState(upvotesState - 1);
             removeUpvote.mutate(id);
           }
@@ -70,7 +73,7 @@ function SuggestionCard({
 
 type SuggestionCardProps = SuggestionOverview & {
   upvotedPosts: number[];
-  setUpvotedPosts: Dispatch<SetStateAction<number[]>>;
+  setUpvotedPosts?: Dispatch<SetStateAction<number[]>>;
 };
 
 export default SuggestionCard;
