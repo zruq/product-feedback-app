@@ -15,6 +15,21 @@ export const router = createTRPCRouter({
     return ctx.prisma.category.findMany({ select: { id: true, title: true } });
   }),
 
+  createFeedback: publicProcedure
+    .input(
+      z.object({
+        title: z.string().min(5).max(255),
+        description: z.string().min(10),
+        categoryId: z.string().cuid(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      const { description, title, categoryId } = input;
+      return ctx.prisma.productRequest.create({
+        data: { description, title, categoryId },
+      });
+    }),
+
   getLatestSuggestions: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.productRequest.findMany({
       where: { status: { equals: "SUGGESTION" } },
@@ -31,12 +46,6 @@ export const router = createTRPCRouter({
     });
   }),
 
-  getUpvotedPosts: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.upvotes.findMany({
-      where: { upvotedId: ctx.session.user.id },
-      select: { feedbackId: true },
-    });
-  }),
   upvoteFeedback: protectedProcedure
     .input(z.number())
     .mutation(({ ctx, input }) => {

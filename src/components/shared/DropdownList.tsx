@@ -32,7 +32,7 @@ function DropdownList({
             setActive(item.id);
           }}
           key={item.id}
-          className={`flex items-center justify-between border-b border-dark-blue border-opacity-[0.15]  py-3 px-6  last-of-type:border-b-0 hover:text-purple `}
+          className={`flex cursor-pointer items-center justify-between border-b border-dark-blue border-opacity-[0.15]  py-3 px-6  last-of-type:border-b-0 hover:text-purple `}
         >
           <div className="capitalize">{item.title}</div>
           {item.id === active && <Checkmark />}

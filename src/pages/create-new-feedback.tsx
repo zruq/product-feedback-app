@@ -6,15 +6,16 @@ import type { SubmitHandler } from "react-hook-form";
 import { api } from "../utils/api";
 import { useState } from "react";
 import DropdownList from "../components/shared/DropdownList";
+import Button from "../components/shared/Button";
 
 type FeedbackSchema = {
   title: string;
   description: string;
-  categoryId: string;
 };
 
 function CreateNewFeedback() {
   const { data: categories } = api.router.getCategoryies.useQuery();
+  const createFeedback = api.router.createFeedback.useMutation();
   const [showDropdown, setShowDropdown] = useState(false);
   const [active, setActive] = useState(categories?.[0]?.id ?? "");
   const {
@@ -23,7 +24,8 @@ function CreateNewFeedback() {
     watch,
     formState: { errors },
   } = useForm<FeedbackSchema>();
-  const onSubmit: SubmitHandler<FeedbackSchema> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<FeedbackSchema> = (data) =>
+    createFeedback.mutate({ ...data, categoryId: active });
   return (
     <>
       <Head>
@@ -34,54 +36,64 @@ function CreateNewFeedback() {
       <main className="flex h-screen w-screen items-center justify-center bg-light-grey-lighter">
         <Card className="relative px-10 py-12 text-dark-blue desktop:w-[33.75rem]">
           <h1 className="mb-10 text-h1">Create New Feedback</h1>
-          <form onSubmit={(data) => console.log(data)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <label>
               <h4 className="text-h4">Feedback Title</h4>
               <p className="mb-4 mt-0.5 text-[0.875rem] leading-[20.23px] text-greyish-blue">
                 Add a short, descriptive headline
               </p>
               <input
-                {...register("title")}
+                {...register("title", {
+                  required: true,
+                  minLength: 5,
+                  maxLength: 255,
+                })}
                 type="text"
-                className="input w-full"
+                className={"input w-full " + (errors.title ? "border-red" : "")}
               />
+              <div
+                className={
+                  "mt-1 text-h4 font-normal text-red " +
+                  (errors.title ? "" : "invisible")
+                }
+              >
+                Can’t be empty
+              </div>
             </label>
-            <label
-              className="my-6 block bg-red"
-              onClick={(e) => e.stopPropagation()}
-            >
+            <label className="my-6 block " onClick={(e) => e.stopPropagation()}>
               <h4 className=" text-h4">Category</h4>
               <p className="mb-4 mt-0.5 text-[0.875rem] leading-[20.23px] text-greyish-blue">
                 Choose a category for your feedback
               </p>
-              <button
-                type="button"
-                className="input relative flex  w-full items-center justify-between"
-                onClick={() => {
-                  setShowDropdown(!showDropdown);
-                }}
-              >
-                <div className="capitalize">
+              <div className="input relative flex  w-full items-center justify-between">
+                <button
+                  onClick={() => {
+                    setShowDropdown(!showDropdown);
+                  }}
+                  type="button"
+                  className="w-full   text-left capitalize"
+                >
                   {categories?.find((cat) => cat.id === active)?.title ??
                     categories?.[0]?.title ??
                     ""}
-                </div>
-                {showDropdown ? (
+                </button>
+
+                {!showDropdown ? (
                   <IconDown className="stroke-blue" />
                 ) : (
                   <IconUp className="stroke-blue" />
                 )}
                 {showDropdown && (
                   <DropdownList
-                    className="top-[110%] -ml-6 w-full "
+                    className="top-[110%] z-10 -ml-6 w-full bg-red "
                     setShowDropDown={setShowDropdown}
                     showDropDown={showDropdown}
                     active={active}
-                    setActive={handleDropdownClick}
+                    setActive={(x) => setActive(x)}
                     items={categories || []}
                   />
                 )}
-              </button>
+              </div>
             </label>
             <label>
               <h4 className="text-h4">Feedback Detail</h4>
@@ -90,22 +102,35 @@ function CreateNewFeedback() {
                 etc.
               </p>
               <textarea
-                {...register("description")}
-                className="input h-24 w-full resize-none"
+                {...register("description", { required: true, minLength: 10 })}
+                className={`input h-24 w-full resize-none ${
+                  errors.description ? "border-red" : ""
+                } `}
               />
-              <button type="submit">shrs</button>
+
+              <div
+                className={
+                  "mt-1 text-h4 font-normal text-red " +
+                  (errors.description ? "" : "invisible")
+                }
+              >
+                Can’t be empty
+              </div>
             </label>
-            <button type="submit">sub</button>
+            <div className="flex items-center justify-end">
+              <Button bgColor="dark-blue" className="mr-4 px-6 py-3">
+                Cancel
+              </Button>
+              <Button type="submit" bgColor="purple" className="px-6 py-3">
+                Add Feedback
+              </Button>
+            </div>
           </form>
           <NewFeedback className="absolute -top-8 left-10 " />
         </Card>
       </main>
     </>
   );
-
-  function handleDropdownClick(x: string) {
-    setActive(x);
-  }
 }
 
 export default CreateNewFeedback;
