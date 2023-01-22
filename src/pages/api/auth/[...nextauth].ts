@@ -9,9 +9,15 @@ import { prisma } from "../../../server/db";
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
-    session({ session, user }) {
+    async session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
+        session.user.isAdmin = user.isAdmin as boolean;
+        const upvotes = await prisma.upvotes.findMany({
+          where: { upvotedId: user.id },
+          select: { feedbackId: true },
+        });
+        session.user.upvotes = upvotes.map((x) => x.feedbackId);
       }
       return session;
     },

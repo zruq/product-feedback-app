@@ -19,7 +19,7 @@ function SuggestionCard({
 }: SuggestionCardProps) {
   const upvote = api.router.upvoteFeedback.useMutation();
   const removeUpvote = api.router.removeUpvote.useMutation();
-  const upvoted = upvotedPosts.some((postid) => postid.feedbackId === id);
+  const upvoted = upvotedPosts.some((postid) => postid === id);
   const [upvotesState, setUpvotesState] = useState(upvotes + _count.Upvotes);
   return (
     <Card className="group my-5  flex items-start justify-start px-8 py-7">
@@ -27,13 +27,11 @@ function SuggestionCard({
         upvoted={upvoted}
         onClick={() => {
           if (!upvoted) {
-            setUpvotedPosts(upvotedPosts.concat({ feedbackId: id }));
+            setUpvotedPosts(upvotedPosts.concat(id));
             setUpvotesState(upvotesState + 1);
             upvote.mutate(id);
           } else {
-            setUpvotedPosts(
-              upvotedPosts.filter((feedback) => feedback.feedbackId !== id)
-            );
+            setUpvotedPosts(upvotedPosts.filter((feedback) => feedback !== id));
             setUpvotesState(upvotesState - 1);
             removeUpvote.mutate(id);
           }
@@ -71,16 +69,8 @@ function SuggestionCard({
 }
 
 type SuggestionCardProps = SuggestionOverview & {
-  upvotedPosts: {
-    feedbackId: number;
-  }[];
-  setUpvotedPosts: Dispatch<
-    SetStateAction<
-      {
-        feedbackId: number;
-      }[]
-    >
-  >;
+  upvotedPosts: number[];
+  setUpvotedPosts: Dispatch<SetStateAction<number[]>>;
 };
 
 export default SuggestionCard;

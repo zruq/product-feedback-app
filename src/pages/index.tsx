@@ -12,23 +12,17 @@ import NoFeedback from "../components/NoFeedback";
 
 const Home: NextPage = () => {
   const { data, status } = useSession();
-  console.log("hoohhsaaeheee", data);
   const { data: latestSuggestions, isSuccess } =
     api.router.getLatestSuggestions.useQuery();
-  const { data: upvotedArr } = api.router.getUpvotedPosts.useQuery();
   const [visibleSuggestions, setVisibleSuggestions] = useState<
     SuggestionOverview[]
   >(latestSuggestions || []);
-  const [upvotedPosts, setUpvotedPosts] = useState<
-    {
-      feedbackId: number;
-    }[]
-  >([]);
+  const [upvotedPosts, setUpvotedPosts] = useState<number[]>([]);
   useEffect(() => {
     if (status === "authenticated") {
-      setUpvotedPosts(upvotedArr || []);
+      setUpvotedPosts(data.user?.upvotes || []);
     }
-  }, [upvotedArr, status]);
+  }, [status]);
   useEffect(() => {
     if (isSuccess) setVisibleSuggestions(latestSuggestions);
   }, [isSuccess]);

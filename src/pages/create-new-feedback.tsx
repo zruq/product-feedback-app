@@ -46,19 +46,22 @@ function CreateNewFeedback() {
                 className="input w-full"
               />
             </label>
-            <label className="my-6 block " onClick={(e) => e.stopPropagation()}>
+            <label
+              className="my-6 block bg-red"
+              onClick={(e) => e.stopPropagation()}
+            >
               <h4 className=" text-h4">Category</h4>
               <p className="mb-4 mt-0.5 text-[0.875rem] leading-[20.23px] text-greyish-blue">
                 Choose a category for your feedback
               </p>
               <button
                 type="button"
-                className="input relative  flex w-full items-center justify-between"
+                className="input relative flex  w-full items-center justify-between"
                 onClick={() => {
                   setShowDropdown(!showDropdown);
                 }}
               >
-                <div className="">
+                <div className="capitalize">
                   {categories?.find((cat) => cat.id === active)?.title ??
                     categories?.[0]?.title ??
                     ""}
@@ -101,7 +104,6 @@ function CreateNewFeedback() {
   );
 
   function handleDropdownClick(x: string) {
-    setShowDropdown(false);
     setActive(x);
   }
 }
