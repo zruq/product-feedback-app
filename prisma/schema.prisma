@@ -39,11 +39,21 @@ model Comment {
   content          String         @db.VarChar(255)
   userId           String
   productRequestId Int
-  commentId        Int?
-  replyingTo       Comment?       @relation("Replies", fields: [commentId], references: [id])
-  replies          Comment[]      @relation("Replies")
   product          ProductRequest @relation(fields: [productRequestId], references: [id])
   user             User           @relation(fields: [userId], references: [id])
+  replies          Reply[]
+}
+
+model Reply {
+  id              Int     @id @default(autoincrement())
+  content         String  @db.VarChar(255)
+  author          User    @relation(fields: [authorId], references: [id])
+  authorId        String
+  parentComment   Comment @relation(fields: [parentCommentId], references: [id])
+  parentCommentId Int
+  replyingTo      Reply?  @relation("replying to", fields: [replyId], references: [id])
+  Reply           Reply?  @relation("replying to")
+  replyId         Int?    @unique
 }
 
 model Account {
@@ -74,16 +84,17 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  username      String?   @unique
-  name          String?
+  username      String    @unique
+  name          String
   email         String?   @unique
   emailVerified DateTime?
-  image         String?
+  image         String
   isAdmin       Boolean   @default(false)
   accounts      Account[]
   Comment       Comment[]
   sessions      Session[]
   Upvotes       Upvotes[]
+  Reply         Reply[]
 }
 
 model VerificationToken {

@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { SuggestionOverview } from "../pages";
 import { IconDown, IconUp, SuggestionIcon } from "../svgs/Icons";
-import Button from "./shared/Button";
+import Button, { LinkButton } from "./shared/Button";
 import DropdownList from "./shared/DropdownList";
 
 const items = [
@@ -32,7 +32,7 @@ function Topbar({ setVisibleSuggestions, suggestions }: TopbarProps) {
             setShowDropdown(!showDropdown);
           }}
           className={
-            "relative flex items-center hover:bg-[#373F68] hover:text-opacity-75 tablet:mt-0.5 " +
+            "relative flex items-center hover:bg-opacity-0 hover:text-opacity-75 tablet:mt-0.5 " +
             (showDropdown ? "text-opacity-75" : "")
           }
         >
@@ -58,12 +58,13 @@ function Topbar({ setVisibleSuggestions, suggestions }: TopbarProps) {
           )}
         </Button>
       </div>
-      <Button
+      <LinkButton
+        link="./create-new-feedback"
         className="px-4 py-[10.5px] text-body3 font-bold"
         bgColor="purple"
       >
         + Add Feedback
-      </Button>
+      </LinkButton>
     </div>
   );
 

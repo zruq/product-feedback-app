@@ -1,14 +1,14 @@
-import { useSession } from "next-auth/react";
-import Button, { GoBackButton } from "./shared/Button";
+import type { ReactNode } from "react";
+import { GoBackButton } from "./shared/Button";
 
-function Navbar() {
-  const { status } = useSession();
+function Navbar({ children }: { children?: ReactNode }) {
   return (
     <div
-      className="flex items-center justify-between
+      className="mb-16 mt-9 flex w-full items-center justify-between tablet:mt-14 desktop:mt-24
     "
     >
       <GoBackButton isGhost />
+      {children}
     </div>
   );
 }

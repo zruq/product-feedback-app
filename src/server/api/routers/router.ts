@@ -34,6 +34,7 @@ export const router = createTRPCRouter({
     return ctx.prisma.productRequest.findUnique({
       where: { id: input },
       select: {
+        id: true,
         upvotes: true,
         _count: { select: { Upvotes: true, comments: true } },
         title: true,
@@ -41,14 +42,27 @@ export const router = createTRPCRouter({
         category: { select: { id: true, title: true } },
         comments: {
           select: {
-            commentId: true,
+            id: true,
             content: true,
-            replyingTo: true,
-            user: { select: { image: true, name: true, username: true } },
+            user: { select: { name: true, username: true, image: true } },
+            replies: {
+              select: {
+                id: true,
+                content: true,
+                author: { select: { image: true, username: true, name: true } },
+                replyingTo: {
+                  select: { id: true, author: { select: { username: true } } },
+                },
+              },
+            },
           },
         },
       },
     });
+
+    // const comments = productRequest?.comments.filter(
+    //   (comment) => !comment.replyingTo
+    // );
   }),
   getLatestSuggestions: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.productRequest.findMany({

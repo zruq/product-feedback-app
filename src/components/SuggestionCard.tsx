@@ -4,39 +4,41 @@ import { Comment } from "../svgs/Icons";
 import Card from "./shared/Card";
 import Upvotes from "./shared/Upvote";
 import Tag from "./Tag";
-import type { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { useState } from "react";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 function SuggestionCard({
-  setUpvotedPosts,
   category,
   title,
   description,
   upvotes,
   _count,
   id,
-  upvotedPosts,
 }: SuggestionCardProps) {
+  const { data, status } = useSession();
   const upvote = api.router.upvoteFeedback.useMutation();
   const removeUpvote = api.router.removeUpvote.useMutation();
-  const upvoted = upvotedPosts.some((postid) => postid === id);
+  const [upvoted, setUpvoted] = useState(false);
   const [upvotesState, setUpvotesState] = useState(upvotes + _count.Upvotes);
+  useEffect(() => {
+    if (status === "authenticated")
+      setUpvoted(data?.user?.upvotes.some((postid) => postid === id));
+  }, [status]);
   return (
     <Card className="group my-5  flex items-start justify-start px-8 py-7">
       <Upvotes
         upvoted={upvoted}
         onClick={() => {
           if (!upvoted) {
-            setUpvotedPosts && setUpvotedPosts(upvotedPosts.concat(id));
             setUpvotesState(upvotesState + 1);
             upvote.mutate(id);
+            setUpvoted(true);
           } else {
-            setUpvotedPosts &&
-              setUpvotedPosts(
-                upvotedPosts.filter((feedback) => feedback !== id)
-              );
             setUpvotesState(upvotesState - 1);
             removeUpvote.mutate(id);
+            setUpvoted(false);
           }
         }}
         className="hidden tablet:block"
@@ -44,9 +46,12 @@ function SuggestionCard({
       />
       <div className=" flex h-full w-full flex-col justify-between  tablet:flex-row tablet:items-center ">
         <div className="pb-4 tablet:px-10 tablet:pb-0">
-          <a className="cursor-pointer text-h3 text-dark-blue group-hover:text-blue">
+          <Link
+            href={`/feedback/${id}`}
+            className="cursor-pointer text-h3 text-dark-blue group-hover:text-blue"
+          >
             {title}
-          </a>
+          </Link>
           <p className="mt-1 mb-3 text-body1 text-greyish-blue">
             {description}
           </p>
