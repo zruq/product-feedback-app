@@ -52,8 +52,8 @@ model Reply {
   parentComment   Comment @relation(fields: [parentCommentId], references: [id])
   parentCommentId Int
   replyingTo      Reply?  @relation("replying to", fields: [replyId], references: [id])
-  Reply           Reply?  @relation("replying to")
-  replyId         Int?    @unique
+  Reply           Reply[] @relation("replying to")
+  replyId         Int?
 }
 
 model Account {

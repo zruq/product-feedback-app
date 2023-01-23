@@ -1,13 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { api } from "../utils/api";
 import Button from "./shared/Button";
 
-function Comment({ user, content, replyingTo }: CommentProps) {
+function Comment({ id, user, content, replyingTo }: CommentProps) {
+  const appReply = api.router.addReply.useMutation();
   const [showReply, setShowReply] = useState(false);
+  const [replyContent, setReplyContent] = useState("");
   return (
-    <div className="flex items-start justify-start py-8">
-      <div className="mr-8">
+    <div
+      className=" flex items-start justify-start py-8 "
+      id={`${replyingTo ? `reply${id}` : `comment${id}`}`}
+    >
+      <div className="mr-8 ">
         <Image
           className="rounded-full"
           width={40}
@@ -44,9 +50,21 @@ function Comment({ user, content, replyingTo }: CommentProps) {
           {content}
         </div>
         {showReply && (
-          <form className="mt-6 flex items-start justify-between" action="">
+          <form
+            className="mt-6 flex items-start justify-between"
+            onSubmit={(e) => {
+              e.preventDefault();
+              appReply.mutate({
+                content: replyContent,
+                parentCommentId: id.commentId,
+                replyingToId: id.replyId,
+              });
+            }}
+          >
             <label className="block w-[77%] " htmlFor="add-reply">
               <textarea
+                value={replyContent}
+                onChange={(e) => setReplyContent(e.target.value)}
                 name="add-reply"
                 id="add-reply"
                 placeholder="Type your comment here"
@@ -64,6 +82,7 @@ function Comment({ user, content, replyingTo }: CommentProps) {
 }
 
 type CommentProps = {
+  id: { commentId: number; replyId?: number };
   user: {
     username: string;
     name: string;

@@ -99,4 +99,34 @@ export const router = createTRPCRouter({
         },
       });
     }),
+
+  addComment: protectedProcedure
+    .input(
+      z.object({ productRequestId: z.number(), content: z.string().max(250) })
+    )
+    .mutation(({ ctx, input }) => {
+      const { content, productRequestId } = input;
+      return ctx.prisma.comment.create({
+        data: { content, productRequestId, userId: ctx.session.user.id },
+      });
+    }),
+  addReply: protectedProcedure
+    .input(
+      z.object({
+        parentCommentId: z.number(),
+        content: z.string().max(250),
+        replyingToId: z.number().optional(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      const { content, parentCommentId, replyingToId: replyId } = input;
+      return ctx.prisma.reply.create({
+        data: {
+          content,
+          parentCommentId,
+          authorId: ctx.session.user.id,
+          replyId,
+        },
+      });
+    }),
 });
