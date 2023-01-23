@@ -8,8 +8,11 @@ import Card from "../../components/shared/Card";
 import SuggestionCard from "../../components/SuggestionCard";
 import { api } from "../../utils/api";
 import Comment from "../../components/Comment";
+import Button from "../../components/shared/Button";
+import { useState } from "react";
 function FeedbackPage() {
   const router = useRouter();
+  const [newComment, setNewComment] = useState("");
   const { id } = router.query;
   const getData = api.router.getFeedback.useQuery(id ? +id : 1);
   const { data, isSuccess } = getData;
@@ -40,7 +43,12 @@ function FeedbackPage() {
             <Card className="px-8 py-6">
               <>
                 <div className=" text-h3 capitalize text-[#3A4374] ">
-                  {data._count.comments} comments
+                  {data._count.comments +
+                    data.comments.reduce(
+                      (acc, curr) => acc + curr.replies.length,
+                      0
+                    )}{" "}
+                  comments
                 </div>
                 {data.comments.map((comment) => (
                   <div
@@ -77,6 +85,37 @@ function FeedbackPage() {
                     )}
                   </div>
                 ))}
+              </>
+            </Card>
+            <Card className="my-6 px-8 py-6">
+              <>
+                <form action="">
+                  <label htmlFor="add-comment">
+                    <div className=" mb-6 text-h3 capitalize text-[#3A4374]">
+                      Add Comment
+                    </div>
+                    <textarea
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      name="add-comment"
+                      id="add-comment"
+                      placeholder="Type your comment here"
+                      className="input mb-4 h-20 w-full resize-none"
+                    />
+                  </label>
+                  <div className="flex justify-between">
+                    <div className="text-body2 text-[#647196]">
+                      {250 - newComment.length} Characters left
+                    </div>
+                    <Button
+                      disabled={250 - newComment.length < 0}
+                      bgColor="purple"
+                      className="px-6 py-3 disabled:cursor-not-allowed"
+                    >
+                      Post Comment
+                    </Button>
+                  </div>
+                </form>
               </>
             </Card>
             {/* <Card className="px-8 py-6">

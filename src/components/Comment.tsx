@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import Button from "./shared/Button";
 
 function Comment({ user, content, replyingTo }: CommentProps) {
+  const [showReply, setShowReply] = useState(false);
   return (
     <div className="flex items-start justify-start py-8">
       <div className="mr-8">
@@ -21,7 +24,10 @@ function Comment({ user, content, replyingTo }: CommentProps) {
               @{user.username}
             </div>
           </div>
-          <button className="block text-body3 font-semibold text-blue">
+          <button
+            className="block text-body3 font-semibold text-blue hover:underline"
+            onClick={() => setShowReply(!showReply)}
+          >
             Reply
           </button>
         </div>
@@ -37,6 +43,21 @@ function Comment({ user, content, replyingTo }: CommentProps) {
           )}{" "}
           {content}
         </div>
+        {showReply && (
+          <form className="mt-6 flex items-start justify-between" action="">
+            <label className="block w-[77%] " htmlFor="add-reply">
+              <textarea
+                name="add-reply"
+                id="add-reply"
+                placeholder="Type your comment here"
+                className="input h-20 w-full resize-none"
+              />
+            </label>
+            <Button bgColor="purple" className="block   px-6 py-3">
+              Post Reply
+            </Button>
+          </form>
+        )}
       </div>
     </div>
   );
