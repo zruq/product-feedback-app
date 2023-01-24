@@ -47,7 +47,7 @@ const Home: NextPage = () => {
           {visibleSuggestions && visibleSuggestions.length > 0 ? (
             visibleSuggestions.map((suggestion) => (
               <SuggestionCard
-                key={suggestion.title}
+                key={suggestion.id}
                 {...suggestion}
                 upvotedPosts={upvotedPosts}
                 setUpvotedPosts={setUpvotedPosts}
@@ -107,6 +107,11 @@ export type SuggestionOverview = {
     Upvotes: number;
     comments: number;
   };
+  comments: {
+    _count: {
+      replies: number;
+    };
+  }[];
   id: number;
 };
 

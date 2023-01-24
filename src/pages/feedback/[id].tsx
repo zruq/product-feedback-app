@@ -26,7 +26,7 @@ function FeedbackPage() {
           <meta name="description" content="By Mehdi Zibout" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <main className="flex min-h-screen w-screen flex-col items-center justify-start bg-light-grey-lighter px-10">
+        <main className="flex min-h-screen w-screen flex-col items-center justify-start bg-light-grey-lighter px-6  tablet:px-10">
           <div className="w-full desktop:max-w-[730px]  ">
             <Navbar />
             <SuggestionCard
@@ -37,8 +37,11 @@ function FeedbackPage() {
               upvotes={data?.upvotes}
               _count={data?._count}
               upvotedPosts={[]}
+              comments={comments.map((comment) => {
+                return { _count: { replies: comment.replies.length } };
+              })}
             />
-            <Card className="px-8 py-6">
+            <Card className="px-6 py-6 tablet:px-8">
               <>
                 <div className=" text-h3 capitalize text-[#3A4374] ">
                   {data._count.comments +
@@ -59,13 +62,13 @@ function FeedbackPage() {
                       user={comment.user}
                     />
                     {comment.replies.length > 0 && (
-                      <div className=" w-fit items-center   justify-between  pl-11">
-                        <div className="absolute inset-0   pb-[12rem] ">
-                          <div className="relative top-24 left-4  h-full  w-px  bg-[#8C92B3]  bg-opacity-10"></div>
+                      <div className="w-fit items-center   justify-between border-l  border-[#8C92B3] border-opacity-10 pl-6 tablet:border-none tablet:pl-11">
+                        <div className="absolute inset-0 w-1    pb-[7rem]">
+                          <div className="relative top-16 left-4 hidden h-full  w-px  bg-[#8C92B3]  bg-opacity-10  tablet:block"></div>
                         </div>
-                        <div className="relative z-10">
+                        <div className="relative z-10 ">
                           {comment.replies.map((reply) => (
-                            <>
+                            <div className="relative  last:-mx-[25px] last:border-l last:border-white last:px-[26px] last:tablet:-mx-7   last:tablet:border-l-2 last:tablet:px-7 ">
                               <Comment
                                 id={{
                                   commentId: comment.id,
@@ -85,7 +88,8 @@ function FeedbackPage() {
                                       }
                                 }
                               />
-                            </>
+                              {/* <div className="absolute top-0 -left-7 hidden h-full w-px bg-white "></div> */}
+                            </div>
                           ))}
                         </div>
                       </div>
@@ -118,7 +122,7 @@ function FeedbackPage() {
                       className="input mb-4 h-20 w-full resize-none"
                     />
                   </label>
-                  <div className="flex justify-between">
+                  <div className="flex items-center justify-between tablet:items-start">
                     <div className="text-body2 text-[#647196]">
                       {250 - newComment.length} Characters left
                     </div>

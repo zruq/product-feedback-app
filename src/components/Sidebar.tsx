@@ -12,7 +12,7 @@ function Sidebar({ setVisibleSuggestions, suggestions }: SidebarProps) {
   const { data: categories } = api.router.getCategoryies.useQuery();
   return (
     <div
-      className="justify-between tablet:mb-10 tablet:flex desktop:mb-0 desktop:block desktop:w-[15.93rem] 
+      className="justify-between  tablet:mb-10 tablet:flex desktop:mb-0 desktop:block desktop:w-[15.93rem] 
    "
     >
       <div className="-mx-6 flex w-screen flex-1 items-center justify-between rounded-none bg-header-mobile  bg-cover px-6 py-4 text-left tablet:-mx-0 tablet:w-full tablet:rounded-[10px] tablet:bg-header-tablet tablet:p-6 desktop:h-[11.12rem]  desktop:bg-header-desktop">
@@ -25,12 +25,18 @@ function Sidebar({ setVisibleSuggestions, suggestions }: SidebarProps) {
         <div className="tablet:hidden">
           {showSidebar ? (
             <Close
-              onClick={() => setShowSidebar(!showSidebar)}
+              onClick={() => {
+                setShowSidebar(false);
+                document.documentElement.classList.remove("overflow-hidden");
+              }}
               className="cursor-pointer"
             />
           ) : (
             <HamMenu
-              onClick={() => setShowSidebar(!showSidebar)}
+              onClick={() => {
+                setShowSidebar(true);
+                document.documentElement.classList.add("overflow-hidden");
+              }}
               className="cursor-pointer"
             />
           )}
@@ -47,8 +53,11 @@ function Sidebar({ setVisibleSuggestions, suggestions }: SidebarProps) {
       <RoadmapCard className="hidden" />
       {showSidebar && (
         <div
-          onClick={() => setShowSidebar(false)}
-          className="absolute z-50 flex h-[calc(100vh-83px)] w-full justify-end overflow-hidden bg-[#000] bg-opacity-50  tablet:hidden"
+          onClick={() => {
+            setShowSidebar(false);
+            document.documentElement.classList.remove("overflow-hidden");
+          }}
+          className="absolute z-50 -ml-6 flex h-full w-full justify-end  bg-[#000] bg-opacity-50  tablet:hidden"
         >
           <div
             className="w-3/4 bg-light-grey-lighter p-6"

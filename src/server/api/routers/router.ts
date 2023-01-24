@@ -70,6 +70,7 @@ export const router = createTRPCRouter({
       orderBy: { upvotes: "desc" },
       take: 20,
       select: {
+        comments: { select: { _count: { select: { replies: true } } } },
         id: true,
         title: true,
         description: true,

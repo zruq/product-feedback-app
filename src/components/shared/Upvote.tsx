@@ -6,7 +6,7 @@ function Upvotes({ upvotes, upvoted, className, ...props }: UpvotesProps) {
   return (
     <TagCard
       isActive={upvoted}
-      className={`group/upvote flex items-center justify-center py-1.5 px-3 hover:text-dark-blue tablet:block tablet:pb-2 tablet:pt-[14px] ${
+      className={`group/upvote flex min-w-[69px] items-center justify-center py-1.5 px-3 hover:text-dark-blue tablet:block tablet:min-w-[40px] tablet:pb-2 tablet:pt-[14px] ${
         upvoted ? "text-white" : "text-dark-blue "
       } text-center text-body3 font-bold  ${className || ""}`}
       {...props}
