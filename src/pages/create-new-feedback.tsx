@@ -39,13 +39,13 @@ function CreateNewFeedback() {
         <meta name="description" content="By Mehdi Zibout" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex h-screen w-screen  items-center justify-center bg-light-grey-lighter">
-        <div className="desktop:w-[33.75rem]">
+      <main className="flex  w-screen  items-center justify-center  bg-light-grey-lighter px-6 pb-9 tablet:px-28 ">
+        <div className="  desktop:w-[33.75rem]">
           <Navbar />
-          <Card className="relative px-10 py-12 text-dark-blue ">
+          <Card className="relative mt-14 w-full   px-10 py-12 text-dark-blue tablet:mt-16">
             <h1 className="mb-10 text-h1">Create New Feedback</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <label>
+              <label className="">
                 <h4 className="text-h4">Feedback Title</h4>
                 <p className="mb-4 mt-0.5 text-[0.875rem] leading-[20.23px] text-greyish-blue">
                   Add a short, descriptive headline
@@ -71,7 +71,7 @@ function CreateNewFeedback() {
                 </div>
               </label>
               <label
-                className="my-6 block "
+                className="mb-6 mt-0 block  "
                 onClick={(e) => e.stopPropagation()}
               >
                 <h4 className=" text-h4">Category</h4>
@@ -98,7 +98,7 @@ function CreateNewFeedback() {
                   )}
                   {showDropdown && (
                     <DropdownList
-                      className="top-[110%] z-10 -ml-6 w-full bg-red "
+                      className="top-[110%] z-10 -ml-6 w-full  "
                       setShowDropDown={setShowDropdown}
                       showDropDown={showDropdown}
                       active={active}
@@ -133,11 +133,11 @@ function CreateNewFeedback() {
                   Can’t be empty
                 </div>
               </label>
-              <div className="flex items-center justify-end">
+              <div className="flex flex-col-reverse items-center justify-end tablet:flex-row">
                 <LinkButton
                   link="/"
                   bgColor="dark-blue"
-                  className="mr-4 px-6 py-3"
+                  className="mt-4 w-full px-6 py-3 text-center tablet:mt-0 tablet:mr-4 tablet:w-fit"
                 >
                   Cancel
                 </LinkButton>
@@ -145,7 +145,7 @@ function CreateNewFeedback() {
                   disabled={createFeedback.isLoading}
                   type="submit"
                   bgColor="purple"
-                  className="px-6 py-3 disabled:cursor-not-allowed"
+                  className="w-full px-6 py-3 text-center disabled:cursor-not-allowed tablet:w-fit"
                 >
                   Add Feedback
                 </Button>

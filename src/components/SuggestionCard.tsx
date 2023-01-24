@@ -60,8 +60,17 @@ function SuggestionCard({
         </div>
         <div className="flex w-full justify-between  tablet:w-fit">
           <Upvotes
+            upvoted={upvoted}
             onClick={() => {
-              return;
+              if (!upvoted) {
+                setUpvotesState(upvotesState + 1);
+                upvote.mutate(id);
+                setUpvoted(true);
+              } else {
+                setUpvotesState(upvotesState - 1);
+                removeUpvote.mutate(id);
+                setUpvoted(false);
+              }
             }}
             className="tablet:hidden"
             upvotes={upvotesState}

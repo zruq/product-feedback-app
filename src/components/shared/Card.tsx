@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 function Card({ children, className }: CardProps) {
   return (
-    <div className={`rounded-[10px] bg-white ${className || ""}`}>
+    <div className={`w-full rounded-[10px] bg-white ${className || ""}`}>
       {children}
     </div>
   );
