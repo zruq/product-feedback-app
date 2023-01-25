@@ -55,16 +55,22 @@ export function LinkButton({
     </Link>
   );
 }
-export function GoBackButton({ isGhost }: { isGhost?: boolean }) {
+export function GoBackButton({
+  isGhost,
+  className,
+}: {
+  className?: string;
+  isGhost?: boolean;
+}) {
   const router = useRouter();
   return (
     <Button
       onClick={() => router.back()}
       className={` ${
         isGhost
-          ? " hover:bg-opacity-0"
+          ? "hover:bg-opacity-0"
           : "bg-[#373F68] hover:bg-[#373F68] hover:bg-opacity-100 "
-      } flex items-center justify-center  `}
+      } flex items-center justify-center ${className || ""} `}
     >
       <IconLeft
         className={` ${isGhost ? "stroke-blue" : "stroke-[#CDD2EE]"} `}

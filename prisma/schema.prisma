@@ -110,5 +110,4 @@ enum Status {
   PLANNED
   IN_PROGRESS
   LIVE
-  DROPPED
 }

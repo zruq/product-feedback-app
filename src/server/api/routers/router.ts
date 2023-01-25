@@ -80,7 +80,23 @@ export const router = createTRPCRouter({
       },
     });
   }),
-
+  getRoadmapData: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.productRequest.findMany({
+      where: { status: { not: "SUGGESTION" } },
+      orderBy: { upvotes: "desc" },
+      take: 20,
+      select: {
+        comments: { select: { _count: { select: { replies: true } } } },
+        id: true,
+        title: true,
+        description: true,
+        upvotes: true,
+        category: { select: { id: true, title: true } },
+        _count: { select: { comments: true, Upvotes: true } },
+        status: true,
+      },
+    });
+  }),
   upvoteFeedback: protectedProcedure
     .input(z.number())
     .mutation(({ ctx, input }) => {

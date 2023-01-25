@@ -12,7 +12,7 @@ function RoadmapCard({
 }: RMCProps) {
   return (
     <div
-      className={`rounded-b-[10px] rounded-t-[5px] border-t-[6px] ${
+      className={`mb-4 rounded-b-[10px] rounded-t-[5px] border-t-[6px] ${
         getPropsByStatus(status).borderColor
       } bg-white p-6`}
     >
