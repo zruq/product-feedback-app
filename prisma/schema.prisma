@@ -20,7 +20,7 @@ model ProductRequest {
 }
 
 model Upvotes {
-  feedback   ProductRequest @relation(fields: [feedbackId], references: [id])
+  feedback   ProductRequest @relation(fields: [feedbackId], references: [id], onDelete: Cascade)
   feedbackId Int
   upvoter    User           @relation(fields: [upvotedId], references: [id])
   upvotedId  String
@@ -39,7 +39,7 @@ model Comment {
   content          String         @db.VarChar(255)
   userId           String
   productRequestId Int
-  product          ProductRequest @relation(fields: [productRequestId], references: [id])
+  product          ProductRequest @relation(fields: [productRequestId], references: [id], onDelete: Cascade)
   user             User           @relation(fields: [userId], references: [id])
   replies          Reply[]
 }

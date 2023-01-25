@@ -1,8 +1,13 @@
 import Upvotes from "./shared/Upvote";
 import Tag from "./Tag";
 import { Comment } from "../svgs/Icons";
+import Link from "next/link";
+import { api } from "../utils/api";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 function RoadmapCard({
+  id,
   category,
   description,
   numberOfComments,
@@ -10,11 +15,24 @@ function RoadmapCard({
   title,
   upvotes,
 }: RMCProps) {
+  const session = useSession();
+  const upvote = api.router.upvoteFeedback.useMutation();
+  const removeUpvote = api.router.removeUpvote.useMutation();
+  const [upvoted, setUpvoted] = useState(false);
+  const [upvotesState, setUpvotesState] = useState(upvotes);
+  useEffect(() => {
+    if (session.status === "authenticated")
+      setUpvoted(
+        session?.data?.user?.upvotes.some((upvote) => upvote === id) ?? false
+      );
+  }, [session]);
+  if (session.status === "loading") return <div className="">hmmmm</div>;
+
   return (
     <div
-      className={`mb-4 rounded-b-[10px] rounded-t-[5px] border-t-[6px] ${
+      className={`mb-4 flex flex-col justify-between rounded-b-[10px] rounded-t-[5px]  border-t-[6px] tablet:min-h-[251px] desktop:mb-6 desktop:min-h-[272px] ${
         getPropsByStatus(status).borderColor
-      } bg-white p-6`}
+      } bg-white p-6 tablet:p-5 tablet:py-6 desktop:px-8`}
     >
       <div className="flex items-center ">
         <div
@@ -26,21 +44,34 @@ function RoadmapCard({
           {getPropsByStatus(status).content}
         </div>
       </div>
+
       <div className="mt-4 text-body3 font-bold text-[#3A4374] hover:text-blue desktop:text-h3">
-        {title}
+        <Link href={`/feedback/${id}`}>{title}</Link>
       </div>
-      <p className="my-2 text-body3 text-[#647196] desktop:text-body1">
+      <p className="my-2 text-body3 text-[#647196] tablet:mb-6 desktop:mb-4 desktop:text-body1">
         {description}
       </p>
       <Tag content={category} className="mb-4" />
       <div className="flex w-full justify-between  ">
         <Upvotes
-          upvoted={false}
+          upvoted={upvoted}
           onClick={() => {
-            null;
+            if (session.status === "authenticated") {
+              if (!upvoted) {
+                upvote.mutate(id);
+                setUpvoted(true);
+                setUpvotesState((upvotesState) => upvotesState + 1);
+              } else {
+                removeUpvote.mutate(id);
+                setUpvoted(false);
+                setUpvotesState((upvotesState) => upvotesState - 1);
+              }
+            } else {
+              console.log("you need to login first");
+            }
           }}
           className="tablet:flex tablet:min-w-[69px] tablet:items-center tablet:justify-center tablet:py-1.5 tablet:px-3"
-          upvotes={upvotes}
+          upvotes={upvotesState}
         />
 
         <div className="flex items-center justify-center text-body1 font-bold text-dark-blue">
@@ -55,6 +86,7 @@ function RoadmapCard({
 }
 
 type RMCProps = {
+  id: number;
   status: "PLANNED" | "IN_PROGRESS" | "LIVE";
   title: string;
   description: string;
