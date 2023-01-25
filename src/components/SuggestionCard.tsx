@@ -30,6 +30,7 @@ function SuggestionCard({
   return (
     <Card className="group my-5  flex items-start justify-start p-6 tablet:px-8 tablet:py-7">
       <Upvotes
+        isVertical
         upvoted={upvoted}
         onClick={() => {
           if (!upvoted) {
