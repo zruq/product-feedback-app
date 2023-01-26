@@ -9,11 +9,15 @@ import Sidebar from "../components/Sidebar";
 import SuggestionCard from "../components/SuggestionCard";
 import Topbar from "../components/Topbar";
 import NoFeedback from "../components/NoFeedback";
+import { LoadingHome } from "../components/Loading";
 
 const Home: NextPage = () => {
   const { data, status } = useSession();
-  const { data: latestSuggestions, isSuccess } =
-    api.router.getLatestSuggestions.useQuery();
+  const {
+    data: latestSuggestions,
+    isSuccess,
+    isLoading,
+  } = api.router.getLatestSuggestions.useQuery();
   const [visibleSuggestions, setVisibleSuggestions] = useState<
     SuggestionOverview[]
   >(latestSuggestions || []);
@@ -21,6 +25,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (isSuccess) setVisibleSuggestions(latestSuggestions);
   }, [isSuccess]);
+  if (isLoading) return <LoadingHome />;
   return (
     <>
       <Head>

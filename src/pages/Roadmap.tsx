@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useState } from "react";
+import { LoadingRoadmap } from "../components/Loading";
 import RoadmapCard from "../components/RoadmapCard";
 import Button, { GoBackButton, LinkButton } from "../components/shared/Button";
 import { api } from "../utils/api";
@@ -9,7 +10,7 @@ function CreateNewFeedback() {
   const [showByStatus, setShowByStatus] = useState<
     "PLANNED" | "IN_PROGRESS" | "LIVE"
   >("IN_PROGRESS");
-  if (isLoading) return <div className="">hmmmm</div>;
+  if (isLoading) return <LoadingRoadmap />;
   const showPlanned = data?.filter((item) => item.status === "PLANNED");
   const showInProgress = data?.filter((item) => item.status === "IN_PROGRESS");
   const showLive = data?.filter((item) => item.status === "LIVE");
@@ -21,7 +22,7 @@ function CreateNewFeedback() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex  w-screen  flex-col items-center  justify-center bg-light-grey-lighter   tablet:px-10  desktop:px-36">
-        <div className="desktop:max-w-[1110px]">
+        <div className="w-full desktop:max-w-[1110px]">
           <div className="flex w-full   items-center justify-between bg-dark-blue p-6 tablet:mt-14 tablet:rounded-[10px] desktop:mt-16 ">
             <div className="">
               <GoBackButton className="hover:bg-opacity-0" />

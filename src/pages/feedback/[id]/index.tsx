@@ -8,6 +8,7 @@ import Comment from "../../../components/Comment";
 import Button, { LinkButton } from "../../../components/shared/Button";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { LoadingFeedback } from "../../../components/Loading";
 function FeedbackPage() {
   const { data: session } = useSession();
   const router = useRouter();
@@ -21,13 +22,14 @@ function FeedbackPage() {
       setNewComment("");
     },
   });
-  const { data, isSuccess } = getData;
+  const { data, isSuccess, isLoading } = getData;
+  if (isLoading) return <LoadingFeedback />;
   if (data) {
     const comments = data.comments;
     return (
       <>
         <Head>
-          <title>Crete New Feedback</title>
+          <title>{data.title}</title>
           <meta name="description" content="By Mehdi Zibout" />
           <link rel="icon" href="/favicon.ico" />
         </Head>

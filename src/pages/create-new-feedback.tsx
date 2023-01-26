@@ -17,9 +17,11 @@ type FeedbackSchema = {
 
 function CreateNewFeedback() {
   const router = useRouter();
+  const utils = api.useContext();
   const { data: categories } = api.router.getCategoryies.useQuery();
   const createFeedback = api.router.createFeedback.useMutation({
     onSuccess: async (data) => {
+      await utils.router.getLatestSuggestions.refetch();
       await router.push(`/feedback/${data.id}`);
     },
   });
@@ -35,7 +37,7 @@ function CreateNewFeedback() {
   return (
     <>
       <Head>
-        <title>Crete New Feedback</title>
+        <title>Create New Feedback</title>
         <meta name="description" content="By Mehdi Zibout" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
