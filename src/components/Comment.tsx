@@ -9,8 +9,8 @@ function Comment({ id, user, content, replyingTo }: CommentProps) {
   const [showReply, setShowReply] = useState(false);
   const [replyContent, setReplyContent] = useState("");
   const addReply = api.router.addReply.useMutation({
-    onSuccess: () => {
-      utils.router.getFeedback.refetch(id.postId);
+    onSuccess: async () => {
+      await utils.router.getFeedback.refetch(id.postId);
       setShowReply(false);
     },
   });

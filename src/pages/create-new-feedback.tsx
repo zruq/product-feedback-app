@@ -31,7 +31,7 @@ function CreateNewFeedback() {
     formState: { errors },
   } = useForm<FeedbackSchema>();
   const onSubmit: SubmitHandler<FeedbackSchema> = (data) =>
-    createFeedback.mutate({ ...data, categoryId: active });
+    createFeedback.mutate({ ...data, categoryId: active, id: -1 });
   return (
     <>
       <Head>

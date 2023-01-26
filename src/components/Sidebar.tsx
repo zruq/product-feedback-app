@@ -1,7 +1,7 @@
 import { api } from "../utils/api";
 import Card from "./shared/Card";
 import Tag from "./Tag";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { Close, HamMenu } from "../svgs/Icons";
 import type { SuggestionOverview } from "../pages";
@@ -12,6 +12,11 @@ function Sidebar({ setVisibleSuggestions, suggestions }: SidebarProps) {
   const [active, setActive] = useState("all");
   const { data: categories } = api.router.getCategoryies.useQuery();
   const { data: roadmapStats } = api.router.getRoadmapStats.useQuery();
+  useEffect(() => {
+    return () => {
+      document.documentElement.classList.remove("overflow-hidden");
+    };
+  }, []);
   return (
     <div
       className="justify-between  tablet:mb-10 tablet:flex desktop:mb-0 desktop:block desktop:w-[15.93rem] 

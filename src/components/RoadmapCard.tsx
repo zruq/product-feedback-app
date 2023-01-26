@@ -2,7 +2,7 @@ import Upvotes from "./shared/Upvote";
 import Tag from "./Tag";
 import { Comment } from "../svgs/Icons";
 import Link from "next/link";
-import { api } from "../utils/api";
+import { api, reloadSession } from "../utils/api";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 function RoadmapCard({
@@ -15,8 +15,21 @@ function RoadmapCard({
   upvotes,
 }: RMCProps) {
   const session = useSession();
-  const upvote = api.router.upvoteFeedback.useMutation();
-  const removeUpvote = api.router.removeUpvote.useMutation();
+  const utils = api.useContext();
+  const upvote = api.router.upvoteFeedback.useMutation({
+    onSuccess: async () => {
+      reloadSession();
+      await utils.router.getRoadmapData.refetch();
+      await utils.router.getFeedback.refetch(id);
+    },
+  });
+  const removeUpvote = api.router.removeUpvote.useMutation({
+    onSuccess: async () => {
+      reloadSession();
+      await utils.router.getRoadmapData.refetch();
+      await utils.router.getFeedback.refetch(id);
+    },
+  });
   const [upvoted, setUpvoted] = useState(false);
   const [upvotesState, setUpvotesState] = useState(upvotes);
   useEffect(() => {
@@ -25,7 +38,7 @@ function RoadmapCard({
         session?.data?.user?.upvotes.some((upvote) => upvote === id) ?? false
       );
   }, [session]);
-  if (session.status === "loading") return <div className="">hmmmm</div>;
+  if (session.status === "loading") return null;
 
   return (
     <div

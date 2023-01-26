@@ -1,5 +1,5 @@
 import type { SuggestionOverview } from "../pages";
-import { api } from "../utils/api";
+import { api, reloadSession } from "../utils/api";
 import { Comment } from "../svgs/Icons";
 import Card from "./shared/Card";
 import Upvotes from "./shared/Upvote";
@@ -18,12 +18,31 @@ function SuggestionCard({
   _count,
   id,
 }: SuggestionCardProps) {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const utils = api.useContext();
-  const upvote = api.router.upvoteFeedback.useMutation();
-  const removeUpvote = api.router.removeUpvote.useMutation();
+  const upvote = api.router.upvoteFeedback.useMutation({
+    onSuccess: async () => {
+      reloadSession();
+      await utils.router.getLatestSuggestions.refetch();
+      await utils.router.getFeedback.refetch(id);
+    },
+  });
+  const removeUpvote = api.router.removeUpvote.useMutation({
+    onSuccess: async () => {
+      reloadSession();
+      await utils.router.getLatestSuggestions.refetch();
+      await utils.router.getFeedback.refetch(id);
+    },
+  });
   const [upvoted, setUpvoted] = useState(false);
   const [upvotesCount, setUpvotesCount] = useState(upvotes + _count.Upvotes);
+  useEffect(() => {
+    if (status === "authenticated")
+      setUpvoted(
+        session.user?.upvotes?.some((upvoteid) => upvoteid === id) || false
+      );
+  }, [status, session]);
+
   return (
     <Card className="group my-5  flex items-start justify-start p-6 tablet:px-8 tablet:py-7">
       <Upvotes

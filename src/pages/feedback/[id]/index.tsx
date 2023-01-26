@@ -7,15 +7,17 @@ import { api } from "../../../utils/api";
 import Comment from "../../../components/Comment";
 import Button, { LinkButton } from "../../../components/shared/Button";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 function FeedbackPage() {
+  const { data: session } = useSession();
   const router = useRouter();
   const utils = api.useContext();
   const [newComment, setNewComment] = useState("");
   const { id } = router.query;
   const getData = api.router.getFeedback.useQuery(id ? +id : 1);
   const postComment = api.router.addComment.useMutation({
-    onSettled: () => {
-      utils.router.getFeedback.refetch(id ? +id : 1);
+    onSettled: async () => {
+      await utils.router.getFeedback.refetch(id ? +id : 1);
       setNewComment("");
     },
   });
@@ -32,13 +34,15 @@ function FeedbackPage() {
         <main className="flex min-h-screen w-screen flex-col items-center justify-start bg-light-grey-lighter px-6  tablet:px-10">
           <div className="w-full desktop:max-w-[730px]  ">
             <Navbar>
-              <LinkButton
-                className="px-6 py-3"
-                bgColor="blue"
-                link={`/feedback/${id}/edit`}
-              >
-                Edit Feedback
-              </LinkButton>
+              {session?.user?.isAdmin && (
+                <LinkButton
+                  className="px-6 py-3"
+                  bgColor="blue"
+                  link={`/feedback/${id}/edit`}
+                >
+                  Edit Feedback
+                </LinkButton>
+              )}
             </Navbar>
             <SuggestionCard
               id={data.id}
