@@ -52,40 +52,7 @@ const Home: NextPage = () => {
             <NoFeedback />
           )}
         </div>
-        {/* NAVBAR */}
-        <div className=""></div>
-        {/* Cards */}
       </main>
-      {/* <main className="flex min-h-screen flex-col bg-light-grey-lighter">
-        Hello, World!
-        <div className="">
-          <Dropdown
-            active={active}
-            setActive={setActive}
-            title="Sort by"
-            items={[
-              { id: 1, content: "Most Upvotes" },
-              { id: 2, content: "Least Upvotes" },
-              { id: 3, content: "Most Comments" },
-              { id: 4, content: "Least Comments" },
-            ]}
-          />
-        </div>
-        <div className="">
-          <Button bgColor="purple">Button 1</Button>
-          <Button bgColor="blue">Button 1</Button>
-          <Button bgColor="dark-blue">Button 1</Button>
-          <Button bgColor="red">Button 1</Button>
-          <GoBackButton />
-          <GoBackButton isGhost />
-        </div>
-        <div className="">
-          <Tag content="UX" />
-          <Tag content="Feature" isActive />
-          <Upvotes upvotes={65} />
-          <Upvotes upvotes={52} upvoted />
-        </div>
-      </main> */}
     </>
   );
 };

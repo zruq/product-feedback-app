@@ -48,7 +48,7 @@ function Comment({ id, user, content, replyingTo }: CommentProps) {
           <p className="-ml-12 mt-4  text-body3 text-[#647196]  tablet:ml-0 tablet:text-body2">
             {replyingTo && (
               <Link
-                href={`./#${replyingTo.id}`}
+                href={`/feedback/${id.postId}/#${replyingTo.id}`}
                 className=" font-bold text-purple tablet:text-body2"
               >
                 <>@{replyingTo.author.username}</>

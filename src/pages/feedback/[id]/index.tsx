@@ -72,6 +72,7 @@ function FeedbackPage() {
                     <div
                       className="relative  border-b border-[#8C92B3] border-opacity-25  last-of-type:border-b-0"
                       key={comment.id}
+                      id={`${comment.id}`}
                     >
                       <Comment
                         id={{
@@ -90,8 +91,9 @@ function FeedbackPage() {
                           <div className="relative z-10 ">
                             {comment.replies.map((reply) => (
                               <div
+                                id={`${reply.id}`}
                                 key={reply.id}
-                                className="relative  last:-mx-[25px] last:border-l last:border-white last:px-[26px] last:tablet:-mx-7   last:tablet:border-l-2 last:tablet:px-7 "
+                                className=" relative  last:-mx-[25px] last:border-l last:border-white last:px-[26px] last:tablet:-mx-7   last:tablet:border-l-2 last:tablet:px-7 "
                               >
                                 <Comment
                                   id={{
@@ -105,7 +107,7 @@ function FeedbackPage() {
                                     reply.replyingTo
                                       ? reply.replyingTo
                                       : {
-                                          id: id ? +id : 1,
+                                          id: comment.id,
                                           author: {
                                             username: comment.user.username,
                                           },

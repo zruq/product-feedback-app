@@ -53,8 +53,8 @@ export const LoadingFeedback = () => {
           <div className="my-2 h-7 w-1/3 animate-pulse rounded-md bg-greyish-blue bg-opacity-25"></div>
           <div className="my-2 h-7 w-2/5 animate-pulse rounded-md bg-greyish-blue bg-opacity-25"></div>
         </Card>
-        <Card className="my-4 h-96 w-full  bg-white p-6">
-          <div className="flex items-start justify-between px-10">
+        <Card className="my-4 h-96 w-full  bg-white py-6  tablet:p-6">
+          <div className="flex items-start justify-between px-4 tablet:px-10">
             <div className="mr-6 h-10 w-10 animate-pulse rounded-full bg-greyish-blue bg-opacity-25 "></div>
             <div className="w-[90%]">
               <div className="h-4 w-full animate-pulse rounded-md bg-greyish-blue bg-opacity-25"></div>
@@ -62,7 +62,7 @@ export const LoadingFeedback = () => {
               <div className="my-2 h-4 w-2/5 animate-pulse rounded-md bg-greyish-blue bg-opacity-25"></div>
             </div>
           </div>
-          <div className="my-4 flex items-start justify-between px-10">
+          <div className="my-4 flex items-start justify-between px-4 tablet:px-10">
             <div className="mr-6 h-10 w-10 animate-pulse rounded-full bg-greyish-blue bg-opacity-25 "></div>
             <div className="w-[90%]">
               <div className="h-4 w-full animate-pulse rounded-md bg-greyish-blue bg-opacity-25"></div>
@@ -70,7 +70,7 @@ export const LoadingFeedback = () => {
               <div className="my-2 h-4 w-2/5 animate-pulse rounded-md bg-greyish-blue bg-opacity-25"></div>
             </div>
           </div>
-          <div className="my-4 flex items-start justify-between px-10">
+          <div className="my-4 flex items-start justify-between px-4 tablet:px-10">
             <div className="mr-6 h-10 w-10 animate-pulse rounded-full bg-greyish-blue bg-opacity-25 "></div>
             <div className="w-[90%]">
               <div className="h-4 w-full animate-pulse rounded-md bg-greyish-blue bg-opacity-25"></div>
@@ -78,7 +78,7 @@ export const LoadingFeedback = () => {
               <div className="my-2 h-4 w-2/5 animate-pulse rounded-md bg-greyish-blue bg-opacity-25"></div>
             </div>
           </div>
-          <div className="my-4 flex items-start justify-between px-10">
+          <div className="my-4 flex items-start justify-between px-4 tablet:px-10">
             <div className="mr-6 h-10 w-10 animate-pulse rounded-full bg-greyish-blue bg-opacity-25 "></div>
             <div className="w-[90%]">
               <div className="h-4 w-full animate-pulse rounded-md bg-greyish-blue bg-opacity-25"></div>
