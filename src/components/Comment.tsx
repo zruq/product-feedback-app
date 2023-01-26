@@ -1,17 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { api } from "../utils/api";
 import Button from "./shared/Button";
 
 function Comment({ id, user, content, replyingTo }: CommentProps) {
-  const appReply = api.router.addReply.useMutation();
+  const utils = api.useContext();
   const [showReply, setShowReply] = useState(false);
   const [replyContent, setReplyContent] = useState("");
+  const addReply = api.router.addReply.useMutation({
+    onSuccess: () => {
+      utils.router.getFeedback.refetch(id.postId);
+      setShowReply(false);
+    },
+  });
+
   return (
     <>
       <div
-        className="my-6 flex  items-start  justify-start tablet:my-8  "
+        className="my-6 flex items-start  justify-start   tablet:my-8  "
         id={`${replyingTo ? `reply${id}` : `comment${id}`}`}
       >
         <div className="mr-4   tablet:mr-8">
@@ -54,7 +61,7 @@ function Comment({ id, user, content, replyingTo }: CommentProps) {
               className="-ml-12 mt-6 flex flex-col items-end justify-between tablet:-ml-0  tablet:flex-row tablet:items-start"
               onSubmit={(e) => {
                 e.preventDefault();
-                appReply.mutate({
+                addReply.mutate({
                   content: replyContent,
                   parentCommentId: id.commentId,
                   replyingToId: id.replyId,
@@ -75,8 +82,13 @@ function Comment({ id, user, content, replyingTo }: CommentProps) {
                 />
               </label>
               <Button
+                disabled={
+                  250 - replyContent.length < 0 ||
+                  addReply.isLoading ||
+                  replyContent.length < 5
+                }
                 bgColor="purple"
-                className="mt-3 block px-6  py-3 tablet:mt-0"
+                className="mt-3 block px-6  py-3 disabled:cursor-not-allowed disabled:bg-dark-blue tablet:mt-0"
               >
                 Post Reply
               </Button>
@@ -89,7 +101,7 @@ function Comment({ id, user, content, replyingTo }: CommentProps) {
 }
 
 type CommentProps = {
-  id: { commentId: number; replyId?: number };
+  id: { commentId: number; replyId?: number; postId: number };
   user: {
     username: string;
     name: string;

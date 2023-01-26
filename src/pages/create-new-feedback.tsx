@@ -39,7 +39,7 @@ function CreateNewFeedback() {
         <meta name="description" content="By Mehdi Zibout" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex  w-screen  items-center justify-center  bg-light-grey-lighter px-6 pb-9 tablet:px-28 ">
+      <main className="flex min-h-screen  w-screen  items-center justify-center  bg-light-grey-lighter px-6 pb-9 tablet:px-28 ">
         <div className="  desktop:w-[33.75rem]">
           <Navbar />
           <Card className="relative mt-14 w-full   px-10 py-12 text-dark-blue tablet:mt-16">

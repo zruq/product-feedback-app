@@ -17,12 +17,7 @@ const Home: NextPage = () => {
   const [visibleSuggestions, setVisibleSuggestions] = useState<
     SuggestionOverview[]
   >(latestSuggestions || []);
-  const [upvotedPosts, setUpvotedPosts] = useState<number[]>([]);
-  useEffect(() => {
-    if (status === "authenticated") {
-      setUpvotedPosts(data.user?.upvotes || []);
-    }
-  }, [status]);
+
   useEffect(() => {
     if (isSuccess) setVisibleSuggestions(latestSuggestions);
   }, [isSuccess]);
@@ -46,12 +41,7 @@ const Home: NextPage = () => {
           />
           {visibleSuggestions && visibleSuggestions.length > 0 ? (
             visibleSuggestions.map((suggestion) => (
-              <SuggestionCard
-                key={suggestion.id}
-                {...suggestion}
-                upvotedPosts={upvotedPosts}
-                setUpvotedPosts={setUpvotedPosts}
-              />
+              <SuggestionCard key={suggestion.id} {...suggestion} />
             ))
           ) : (
             <NoFeedback />

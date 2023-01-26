@@ -4,7 +4,7 @@ import { Comment } from "../svgs/Icons";
 import Card from "./shared/Card";
 import Upvotes from "./shared/Upvote";
 import Tag from "./Tag";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -18,33 +18,34 @@ function SuggestionCard({
   _count,
   id,
 }: SuggestionCardProps) {
-  const { data, status } = useSession();
+  const { status } = useSession();
+  const utils = api.useContext();
   const upvote = api.router.upvoteFeedback.useMutation();
   const removeUpvote = api.router.removeUpvote.useMutation();
   const [upvoted, setUpvoted] = useState(false);
-  const [upvotesState, setUpvotesState] = useState(upvotes + _count.Upvotes);
-  useEffect(() => {
-    if (status === "authenticated")
-      setUpvoted(data?.user?.upvotes.some((postid) => postid === id) || false);
-  }, [status]);
+  const [upvotesCount, setUpvotesCount] = useState(upvotes + _count.Upvotes);
   return (
     <Card className="group my-5  flex items-start justify-start p-6 tablet:px-8 tablet:py-7">
       <Upvotes
         isVertical
         upvoted={upvoted}
         onClick={() => {
-          if (!upvoted) {
-            setUpvotesState(upvotesState + 1);
-            upvote.mutate(id);
-            setUpvoted(true);
+          if (status === "authenticated") {
+            if (!upvoted) {
+              setUpvoted(true);
+              upvote.mutate(id);
+              setUpvotesCount(upvotesCount + 1);
+            } else {
+              setUpvoted(false);
+              removeUpvote.mutate(id);
+              setUpvotesCount(upvotesCount - 1);
+            }
           } else {
-            setUpvotesState(upvotesState - 1);
-            removeUpvote.mutate(id);
-            setUpvoted(false);
+            console.log("you need to be logged in");
           }
         }}
         className="hidden tablet:block"
-        upvotes={upvotesState}
+        upvotes={upvotesCount}
       />
       <div className=" flex h-full w-full flex-col justify-between  tablet:flex-row tablet:items-center ">
         <div className=" pb-4 tablet:px-10 tablet:pb-0">
@@ -63,18 +64,22 @@ function SuggestionCard({
           <Upvotes
             upvoted={upvoted}
             onClick={() => {
-              if (!upvoted) {
-                setUpvotesState(upvotesState + 1);
-                upvote.mutate(id);
-                setUpvoted(true);
+              if (status === "authenticated") {
+                if (!upvoted) {
+                  setUpvoted(true);
+                  upvote.mutate(id);
+                  setUpvotesCount(upvotesCount + 1);
+                } else {
+                  setUpvoted(false);
+                  removeUpvote.mutate(id);
+                  setUpvotesCount(upvotesCount - 1);
+                }
               } else {
-                setUpvotesState(upvotesState - 1);
-                removeUpvote.mutate(id);
-                setUpvoted(false);
+                console.log("you need to be logged in");
               }
             }}
             className="tablet:hidden"
-            upvotes={upvotesState}
+            upvotes={upvotesCount}
           />
 
           <div className="flex items-center justify-center text-body1 font-bold text-dark-blue">
@@ -90,9 +95,6 @@ function SuggestionCard({
   );
 }
 
-type SuggestionCardProps = SuggestionOverview & {
-  upvotedPosts: number[];
-  setUpvotedPosts?: Dispatch<SetStateAction<number[]>>;
-};
+type SuggestionCardProps = SuggestionOverview;
 
 export default SuggestionCard;

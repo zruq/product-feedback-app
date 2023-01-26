@@ -49,7 +49,7 @@ model Reply {
   content         String  @db.VarChar(255)
   author          User    @relation(fields: [authorId], references: [id])
   authorId        String
-  parentComment   Comment @relation(fields: [parentCommentId], references: [id])
+  parentComment   Comment @relation(fields: [parentCommentId], references: [id], onDelete: Cascade)
   parentCommentId Int
   replyingTo      Reply?  @relation("replying to", fields: [replyId], references: [id])
   Reply           Reply[] @relation("replying to")

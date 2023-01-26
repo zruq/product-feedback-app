@@ -21,12 +21,18 @@ export const router = createTRPCRouter({
         title: z.string().min(5).max(255),
         description: z.string().min(10),
         categoryId: z.string().cuid(),
+        id: z.number().optional(),
+        status: z
+          .enum(["SUGGESTION", "IN_PROGRESS", "LIVE", "PLANNED"])
+          .optional(),
       })
     )
     .mutation(({ ctx, input }) => {
-      const { description, title, categoryId } = input;
-      return ctx.prisma.productRequest.create({
-        data: { description, title, categoryId },
+      const { description, title, categoryId, id, status } = input;
+      return ctx.prisma.productRequest.upsert({
+        where: { id },
+        update: { title, description, categoryId, status },
+        create: { description, title, categoryId },
       });
     }),
 
@@ -40,10 +46,12 @@ export const router = createTRPCRouter({
         title: true,
         description: true,
         category: { select: { id: true, title: true } },
+        status: true,
         comments: {
           select: {
             id: true,
             content: true,
+
             user: { select: { name: true, username: true, image: true } },
             replies: {
               select: {
@@ -79,6 +87,18 @@ export const router = createTRPCRouter({
         _count: { select: { comments: true, Upvotes: true } },
       },
     });
+  }),
+  getRoadmapStats: publicProcedure.query(async ({ ctx }) => {
+    const planned = await ctx.prisma.productRequest.count({
+      where: { status: { equals: "PLANNED" } },
+    });
+    const inProgress = await ctx.prisma.productRequest.count({
+      where: { status: { equals: "IN_PROGRESS" } },
+    });
+    const live = await ctx.prisma.productRequest.count({
+      where: { status: { equals: "LIVE" } },
+    });
+    return { planned, inProgress, live };
   }),
   getRoadmapData: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.productRequest.findMany({
@@ -127,6 +147,13 @@ export const router = createTRPCRouter({
         data: { content, productRequestId, userId: ctx.session.user.id },
       });
     }),
+  deleteFeedback: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(({ ctx, input }) => {
+      if (ctx.session.user.isAdmin)
+        return ctx.prisma.productRequest.delete({ where: { id: input.id } });
+    }),
+
   addReply: protectedProcedure
     .input(
       z.object({

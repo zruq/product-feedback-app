@@ -5,11 +5,13 @@ import { useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { Close, HamMenu } from "../svgs/Icons";
 import type { SuggestionOverview } from "../pages";
+import Link from "next/link";
 
 function Sidebar({ setVisibleSuggestions, suggestions }: SidebarProps) {
   const [showSidebar, setShowSidebar] = useState(false);
   const [active, setActive] = useState("all");
   const { data: categories } = api.router.getCategoryies.useQuery();
+  const { data: roadmapStats } = api.router.getRoadmapStats.useQuery();
   return (
     <div
       className="justify-between  tablet:mb-10 tablet:flex desktop:mb-0 desktop:block desktop:w-[15.93rem] 
@@ -50,7 +52,7 @@ function Sidebar({ setVisibleSuggestions, suggestions }: SidebarProps) {
         className="hidden"
         categories={categories}
       />
-      <RoadmapCard className="hidden" />
+      <RoadmapCard {...roadmapStats} className="hidden" />
       {showSidebar && (
         <div
           onClick={() => {
@@ -71,7 +73,7 @@ function Sidebar({ setVisibleSuggestions, suggestions }: SidebarProps) {
               className="mb-6"
               categories={categories}
             />
-            <RoadmapCard />
+            <RoadmapCard {...roadmapStats} />
           </div>
         </div>
       )}
@@ -147,14 +149,27 @@ function CatsCard({
     </Card>
   );
 }
-function RoadmapCard({ className }: { className?: string }) {
+function RoadmapCard({
+  className,
+  planned,
+  inProgress,
+  live,
+}: {
+  planned?: number;
+  inProgress?: number;
+  live?: number;
+  className?: string;
+}) {
   return (
     <Card className={` flex-1 p-6 tablet:block ${className || ""}`}>
       <div className="flex justify-between">
         <h6 className="text-h3 text-dark-blue">Roadmap</h6>
-        <a className="cursor-pointer text-body3 font-semibold text-blue underline transition-colors duration-300 hover:text-[#8397F8]">
+        <Link
+          href={"/roadmap"}
+          className="cursor-pointer text-body3 font-semibold text-blue underline transition-colors duration-300 hover:text-[#8397F8]"
+        >
           View
-        </a>
+        </Link>
       </div>
       <ul className="mt-6 text-greyish-blue">
         <li className="flex justify-between">
@@ -162,21 +177,21 @@ function RoadmapCard({ className }: { className?: string }) {
             <span className="mr-4 inline-block h-2 w-2 rounded-full bg-orange"></span>
             Planned
           </div>
-          <div className="text-body1 font-bold">2</div>
+          <div className="text-body1 font-bold">{planned}</div>
         </li>
         <li className="my-2 flex justify-between">
           <div className="text-body1 ">
             <span className="mr-4 inline-block h-2 w-2 rounded-full bg-purple"></span>
             In-Progress
           </div>
-          <div className="text-body1 font-bold">3</div>
+          <div className="text-body1 font-bold">{inProgress}</div>
         </li>
         <li className="flex justify-between">
           <div className="text-body1 ">
             <span className="mr-4 inline-block h-2 w-2 rounded-full bg-blue"></span>
             Live
           </div>
-          <div className="text-body1 font-bold">1</div>
+          <div className="text-body1 font-bold">{live}</div>
         </li>
       </ul>
     </Card>

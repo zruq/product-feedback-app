@@ -5,7 +5,6 @@ import Link from "next/link";
 import { api } from "../utils/api";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-
 function RoadmapCard({
   id,
   category,
