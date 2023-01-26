@@ -42,7 +42,9 @@ function SuggestionCard({
         session.user?.upvotes?.some((upvoteid) => upvoteid === id) || false
       );
   }, [status, session]);
-
+  useEffect(() => {
+    setUpvotesCount(upvotes + _count.Upvotes);
+  }, [_count.Upvotes]);
   return (
     <Card className="group my-5  flex items-start justify-start p-6 tablet:px-8 tablet:py-7">
       <Upvotes
