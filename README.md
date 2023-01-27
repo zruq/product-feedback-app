@@ -3,9 +3,11 @@
 First, install all required dependencies:
 ```
 npm install
-````
+```
 Create a .env file inside the / folder having the following structure:
-````
+
+
+```
 DATABASE_URL=
 
 NEXTAUTH_SECRET=
