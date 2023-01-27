@@ -16,4 +16,5 @@ NEXTAUTH_URL = http://localhost:3000 # or the link to your website
 GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=
 ```
-If you want to remove or add auth providers, you have to modify the following files : /src/env/schema.mjs and /src/pages/api/auth/[...nextauth].ts.
+
+If you want to remove or add auth providers, you have to modify the following files : `/src/env/schema.mjs` and `/src/pages/api/auth/[...nextauth].ts`.
