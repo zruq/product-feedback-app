@@ -30,7 +30,7 @@ function Comment({ id, user, content, replyingTo }: CommentProps) {
             className="rounded-full"
             width={40}
             height={40}
-            src={user.image}
+            src={user?.image ?? "TODO ADD DEFAULT IMAGE"}
             alt={`avatar of ${user.username}`}
           />
         </div>
@@ -39,7 +39,7 @@ function Comment({ id, user, content, replyingTo }: CommentProps) {
             <div className="">
               <div className="text-h4 text-[#3A4374] ">{user.name}</div>
               <div className="text-body2 text-[0.875rem] text-[#647196]">
-                @{user.username}
+                @{user?.username ?? "anon"}
               </div>
             </div>
             <button
@@ -112,15 +112,15 @@ function Comment({ id, user, content, replyingTo }: CommentProps) {
 type CommentProps = {
   id: { commentId: number; replyId?: number; postId: number };
   user: {
-    username: string;
-    name: string;
-    image: string;
+    username?: string | null;
+    name?: string | null;
+    image?: string | null;
   };
   content: string;
   replyingTo?: {
     id: number;
     author: {
-      username: string;
+      username?: string | null;
     };
   };
 };

@@ -24,15 +24,8 @@ function FeedbackPage() {
       setNewComment("");
     },
   });
-  const { data, isLoading, isError } = getData;
+  const { data, isLoading } = getData;
   if (isLoading) return <LoadingFeedback />;
-  if (isError)
-    return (
-      <div className="">
-        Sorry free tier of ElephantSql only allows 5 active connections, try
-        again later or suggest to me new db providers 💀
-      </div>
-    );
 
   if (data) {
     const comments = data.comments;
@@ -119,7 +112,8 @@ function FeedbackPage() {
                                       : {
                                           id: comment.id,
                                           author: {
-                                            username: comment.user.username,
+                                            username:
+                                              comment?.user?.username ?? "",
                                           },
                                         }
                                   }

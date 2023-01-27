@@ -35,12 +35,7 @@ function CreateNewFeedback() {
   const onSubmit: SubmitHandler<FeedbackSchema> = (data) =>
     createFeedback.mutate({ ...data, categoryId: active, id: -1 });
   if (isError)
-    return (
-      <div className="">
-        Sorry free tier of ElephantSql only allows 5 active connections, try
-        again later or suggest to me new db providers 💀
-      </div>
-    );
+    return <div className="">something wrong happened, try again later</div>;
 
   return (
     <>

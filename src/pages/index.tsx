@@ -10,18 +10,12 @@ import SuggestionCard from "../components/SuggestionCard";
 import Topbar from "../components/Topbar";
 import NoFeedback from "../components/NoFeedback";
 import { LoadingHome } from "../components/Loading";
-import Modal from "../components/shared/Modal";
-import Card from "../components/shared/Card";
-import Button from "../components/shared/Button";
 
 const Home: NextPage = () => {
-  const [showModal, setShowModal] = useState(false);
-  const { data, status } = useSession();
   const {
     data: latestSuggestions,
     isSuccess,
     isLoading,
-    isError,
   } = api.router.getLatestSuggestions.useQuery();
   const [visibleSuggestions, setVisibleSuggestions] = useState<
     SuggestionOverview[]
@@ -31,13 +25,7 @@ const Home: NextPage = () => {
     if (isSuccess) setVisibleSuggestions(latestSuggestions);
   }, [isSuccess]);
   if (isLoading) return <LoadingHome />;
-  if (isError)
-    return (
-      <div className="">
-        Sorry free tier of ElephantSql only allows 5 active connections, try
-        again later or suggest to me new db providers 💀
-      </div>
-    );
+
   return (
     <>
       <Head>
