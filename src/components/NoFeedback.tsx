@@ -1,5 +1,5 @@
 import { IllustartionEmpty } from "../svgs/Icons";
-import Button from "./shared/Button";
+import Button, { LinkButton } from "./shared/Button";
 import Card from "./shared/Card";
 
 function NoFeedback() {
@@ -14,9 +14,13 @@ function NoFeedback() {
         <br className="hidden tablet:block" /> We love hearing about new ideas
         to improve our app.
       </p>
-      <Button className="px-6 py-[12.5px]" bgColor="purple">
+      <LinkButton
+        link="/create-new-feedback"
+        className="px-6 py-[12.5px]"
+        bgColor="purple"
+      >
         + Add Feedback
-      </Button>
+      </LinkButton>
     </Card>
   );
 }

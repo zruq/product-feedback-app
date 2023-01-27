@@ -15,6 +15,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <main className={`${jost.variable} font-sans`}>
         <Component {...pageProps} />
+        <div className="h-full" id="modal"></div>
       </main>
     </SessionProvider>
   );

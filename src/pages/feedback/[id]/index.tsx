@@ -9,8 +9,10 @@ import Button, { LinkButton } from "../../../components/shared/Button";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { LoadingFeedback } from "../../../components/Loading";
+import { SignInModal } from "../../../components/shared/Modal";
 function FeedbackPage() {
-  const { data: session } = useSession();
+  const [showModal, setShowModal] = useState(false);
+  const { data: session, status } = useSession();
   const router = useRouter();
   const utils = api.useContext();
   const [newComment, setNewComment] = useState("");
@@ -22,8 +24,16 @@ function FeedbackPage() {
       setNewComment("");
     },
   });
-  const { data, isSuccess, isLoading } = getData;
+  const { data, isLoading, isError } = getData;
   if (isLoading) return <LoadingFeedback />;
+  if (isError)
+    return (
+      <div className="">
+        Sorry free tier of ElephantSql only allows 5 active connections, try
+        again later or suggest to me new db providers 💀
+      </div>
+    );
+
   if (data) {
     const comments = data.comments;
     return (
@@ -129,10 +139,14 @@ function FeedbackPage() {
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    postComment.mutate({
-                      productRequestId: data.id,
-                      content: newComment,
-                    });
+                    if (status === "authenticated") {
+                      postComment.mutate({
+                        productRequestId: data.id,
+                        content: newComment,
+                      });
+                    } else {
+                      setShowModal(true);
+                    }
                   }}
                 >
                   <label htmlFor="add-comment">
@@ -167,9 +181,10 @@ function FeedbackPage() {
             </Card>
           </div>
         </main>
+        {showModal && <SignInModal setShowModal={setShowModal} />}
       </>
     );
-  } else return <div className="">hmm</div>;
+  } else return <div className="">404</div>;
 }
 
 export default FeedbackPage;

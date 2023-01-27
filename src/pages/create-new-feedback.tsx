@@ -18,7 +18,7 @@ type FeedbackSchema = {
 function CreateNewFeedback() {
   const router = useRouter();
   const utils = api.useContext();
-  const { data: categories } = api.router.getCategoryies.useQuery();
+  const { data: categories, isError } = api.router.getCategoryies.useQuery();
   const createFeedback = api.router.createFeedback.useMutation({
     onSuccess: async (data) => {
       await utils.router.getLatestSuggestions.refetch();
@@ -34,6 +34,14 @@ function CreateNewFeedback() {
   } = useForm<FeedbackSchema>();
   const onSubmit: SubmitHandler<FeedbackSchema> = (data) =>
     createFeedback.mutate({ ...data, categoryId: active, id: -1 });
+  if (isError)
+    return (
+      <div className="">
+        Sorry free tier of ElephantSql only allows 5 active connections, try
+        again later or suggest to me new db providers 💀
+      </div>
+    );
+
   return (
     <>
       <Head>

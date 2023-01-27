@@ -7,9 +7,9 @@ function Button({ className, children, bgColor, ...props }: ButtonProps) {
   return (
     <button
       {...props}
-      className={`rounded-[10px] transition duration-300 hover:bg-[#CFD7FF] ${backgroundColor(
+      className={`rounded-[10px] transition duration-300  ${backgroundColor(
         bgColor
-      )}  text-h4 text-[#F2F4FE] hover:bg-opacity-75 ${className || ""}`}
+      )}  text-h4 text-[#F2F4FE]  ${className || ""}`}
     >
       {children}
     </button>
@@ -21,13 +21,13 @@ function backgroundColor(
 ): string {
   switch (bgColor) {
     case "blue":
-      return " bg-blue ";
+      return " bg-blue hover:bg-[#7C91F9] ";
     case "dark-blue":
-      return " bg-dark-blue ";
+      return " bg-dark-blue hover:bg-[#656EA3] ";
     case "purple":
-      return " bg-purple ";
+      return " bg-purple hover:bg-[#C75AF6] ";
     case "red":
-      return " bg-red ";
+      return " bg-red hover:bg-[#E98888] ";
     default:
       return "";
   }
@@ -47,9 +47,9 @@ export function LinkButton({
   return (
     <Link
       href={link}
-      className={`rounded-[10px] transition duration-300 hover:bg-[#CFD7FF] ${backgroundColor(
+      className={`rounded-[10px] transition duration-300  ${backgroundColor(
         bgColor
-      )}  text-h4 text-[#F2F4FE] hover:bg-opacity-75 ${className || ""}`}
+      )}  text-h4 text-[#F2F4FE]  ${className || ""}`}
     >
       {children}
     </Link>
@@ -68,7 +68,7 @@ export function GoBackButton({
       onClick={() => router.back()}
       className={` ${
         isGhost
-          ? "hover:bg-opacity-0"
+          ? "bg-opacity-0 hover:bg-opacity-0"
           : "bg-[#373F68] hover:bg-[#373F68] hover:bg-opacity-100 "
       } flex items-center justify-center ${className || ""} `}
     >

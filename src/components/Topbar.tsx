@@ -32,7 +32,7 @@ function Topbar({ setVisibleSuggestions, suggestions }: TopbarProps) {
             setShowDropdown(!showDropdown);
           }}
           className={
-            "relative flex items-center hover:bg-opacity-0 hover:text-opacity-75 tablet:mt-0.5" +
+            "relative flex items-center !bg-opacity-0 hover:text-opacity-75 tablet:mt-0.5" +
             (showDropdown ? "text-opacity-75" : "")
           }
         >

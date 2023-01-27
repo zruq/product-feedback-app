@@ -159,36 +159,35 @@ function LoadingCats() {
     <>
       <Tag
         content=""
-        className="mr-4 inline-block h-6 w-10 animate-pulse bg-greyish-blue bg-opacity-25"
+        className="mr-4 inline-block h-6 !w-10 animate-pulse !bg-greyish-blue !bg-opacity-25"
       />
       <Tag
         content=""
-        className="mr-2 inline-block h-6 w-20 animate-pulse bg-greyish-blue bg-opacity-25"
+        className="mr-2 inline-block h-6 !w-20 animate-pulse !bg-greyish-blue !bg-opacity-25 "
       />
       <Tag
         content=""
-        className="mr-2 inline-block h-6 w-7 animate-pulse bg-greyish-blue bg-opacity-25"
+        className="mr-2 inline-block h-6 w-7 !animate-pulse !bg-greyish-blue !bg-opacity-25 "
       />
       <Tag
         content=""
-        className="mr-4 inline-block h-6 w-24 animate-pulse bg-greyish-blue bg-opacity-25"
+        className="mr-4 inline-block h-6 !w-24 animate-pulse !bg-greyish-blue !bg-opacity-25 "
       />
       <Tag
         content=""
-        className="mr-2 inline-block h-6 w-10 animate-pulse bg-greyish-blue bg-opacity-25"
+        className="mr-2 inline-block h-6 !w-10 animate-pulse !bg-greyish-blue !bg-opacity-25"
       />
       <Tag
         content=""
-        className="mr-2 inline-block h-6 w-16 animate-pulse bg-greyish-blue bg-opacity-25"
+        className="mr-2 inline-block h-6 !w-16 animate-pulse !bg-greyish-blue !bg-opacity-25 "
       />
       <Tag
         content=""
-        className="mr-4 inline-block h-6 w-4 animate-pulse bg-greyish-blue bg-opacity-25"
+        className="mr-4 inline-block h-6 !w-4 animate-pulse !bg-greyish-blue !bg-opacity-25"
       />
-
       <Tag
         content=""
-        className="mr-2 inline-block h-6 w-7 animate-pulse bg-greyish-blue bg-opacity-25"
+        className="mr-2 inline-block h-6 !w-7 animate-pulse !bg-greyish-blue !bg-opacity-25 "
       />
     </>
   );

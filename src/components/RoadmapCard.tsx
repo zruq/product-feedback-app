@@ -5,6 +5,7 @@ import Link from "next/link";
 import { api, reloadSession } from "../utils/api";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { SignInModal } from "./shared/Modal";
 function RoadmapCard({
   id,
   category,
@@ -30,6 +31,7 @@ function RoadmapCard({
       await utils.router.getFeedback.refetch(id);
     },
   });
+  const [showModal, setShowModal] = useState(false);
   const [upvoted, setUpvoted] = useState(false);
   const [upvotesState, setUpvotesState] = useState(upvotes);
   useEffect(() => {
@@ -41,59 +43,62 @@ function RoadmapCard({
   if (session.status === "loading") return null;
 
   return (
-    <div
-      className={`mb-4 flex flex-col justify-between rounded-b-[10px] rounded-t-[5px]  border-t-[6px] tablet:min-h-[251px] desktop:mb-6 desktop:min-h-[272px] ${
-        getPropsByStatus(status).borderColor
-      } bg-white p-6 tablet:p-5 tablet:py-6 desktop:px-8`}
-    >
-      <div className="flex items-center ">
-        <div
-          className={`mr-2 h-2 w-2 rounded-full ${
-            getPropsByStatus(status).bgColor
-          }`}
-        ></div>
-        <div className="text-body3 text-[#647196] desktop:text-body1">
-          {getPropsByStatus(status).content}
+    <>
+      <div
+        className={`mb-4 flex flex-col justify-between rounded-b-[10px] rounded-t-[5px]  border-t-[6px] tablet:min-h-[251px] desktop:mb-6 desktop:min-h-[272px] ${
+          getPropsByStatus(status).borderColor
+        } bg-white p-6 tablet:p-5 tablet:py-6 desktop:px-8`}
+      >
+        <div className="flex items-center ">
+          <div
+            className={`mr-2 h-2 w-2 rounded-full ${
+              getPropsByStatus(status).bgColor
+            }`}
+          ></div>
+          <div className="text-body3 text-[#647196] desktop:text-body1">
+            {getPropsByStatus(status).content}
+          </div>
         </div>
-      </div>
 
-      <div className="mt-4 text-body3 font-bold text-[#3A4374] hover:text-blue desktop:text-h3">
-        <Link href={`/feedback/${id}`}>{title}</Link>
-      </div>
-      <p className="my-2 text-body3 text-[#647196] tablet:mb-6 desktop:mb-4 desktop:text-body1">
-        {description}
-      </p>
-      <Tag content={category} className="mb-4" />
-      <div className="flex w-full justify-between  ">
-        <Upvotes
-          upvoted={upvoted}
-          onClick={() => {
-            if (session.status === "authenticated") {
-              if (!upvoted) {
-                upvote.mutate(id);
-                setUpvoted(true);
-                setUpvotesState((upvotesState) => upvotesState + 1);
+        <div className="mt-4 text-body3 font-bold text-[#3A4374] hover:text-blue desktop:text-h3">
+          <Link href={`/feedback/${id}`}>{title}</Link>
+        </div>
+        <p className="my-2 text-body3 text-[#647196] tablet:mb-6 desktop:mb-4 desktop:text-body1">
+          {description}
+        </p>
+        <Tag content={category} className="mb-4" />
+        <div className="flex w-full justify-between  ">
+          <Upvotes
+            upvoted={upvoted}
+            onClick={() => {
+              if (session.status === "authenticated") {
+                if (!upvoted) {
+                  upvote.mutate(id);
+                  setUpvoted(true);
+                  setUpvotesState((upvotesState) => upvotesState + 1);
+                } else {
+                  removeUpvote.mutate(id);
+                  setUpvoted(false);
+                  setUpvotesState((upvotesState) => upvotesState - 1);
+                }
               } else {
-                removeUpvote.mutate(id);
-                setUpvoted(false);
-                setUpvotesState((upvotesState) => upvotesState - 1);
+                setShowModal(true);
               }
-            } else {
-              console.log("you need to login first");
-            }
-          }}
-          className="tablet:flex tablet:min-w-[69px] tablet:items-center tablet:justify-center tablet:py-1.5 tablet:px-3"
-          upvotes={upvotesState}
-        />
+            }}
+            className="tablet:flex tablet:min-w-[69px] tablet:items-center tablet:justify-center tablet:py-1.5 tablet:px-3"
+            upvotes={upvotesState}
+          />
 
-        <div className="flex items-center justify-center text-body1 font-bold text-dark-blue">
-          <Comment />
-          <div className="ml-2 text-body3 font-bold tablet:text-body1">
-            {numberOfComments}
+          <div className="flex items-center justify-center text-body1 font-bold text-dark-blue">
+            <Comment />
+            <div className="ml-2 text-body3 font-bold tablet:text-body1">
+              {numberOfComments}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {showModal && <SignInModal setShowModal={setShowModal} />}
+    </>
   );
 }
 

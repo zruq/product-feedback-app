@@ -25,7 +25,7 @@ function CreateNewFeedback() {
         <div className="w-full desktop:max-w-[1110px]">
           <div className="flex w-full   items-center justify-between bg-dark-blue p-6 tablet:mt-14 tablet:rounded-[10px] desktop:mt-16 ">
             <div className="">
-              <GoBackButton className="hover:bg-opacity-0" />
+              <GoBackButton className="!bg-opacity-0  " />
               <h1 className="text-h3 text-white">Roadmap</h1>
             </div>
             <LinkButton

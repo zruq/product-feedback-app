@@ -1,11 +1,15 @@
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { api } from "../utils/api";
 import Button from "./shared/Button";
+import { SignInModal } from "./shared/Modal";
 
 function Comment({ id, user, content, replyingTo }: CommentProps) {
+  const [showModal, setShowModal] = useState(false);
   const utils = api.useContext();
+  const { status } = useSession();
   const [showReply, setShowReply] = useState(false);
   const [replyContent, setReplyContent] = useState("");
   const addReply = api.router.addReply.useMutation({
@@ -61,11 +65,15 @@ function Comment({ id, user, content, replyingTo }: CommentProps) {
               className="-ml-12 mt-6 flex flex-col items-end justify-between tablet:-ml-0  tablet:flex-row tablet:items-start"
               onSubmit={(e) => {
                 e.preventDefault();
-                addReply.mutate({
-                  content: replyContent,
-                  parentCommentId: id.commentId,
-                  replyingToId: id.replyId,
-                });
+                if (status === "authenticated") {
+                  addReply.mutate({
+                    content: replyContent,
+                    parentCommentId: id.commentId,
+                    replyingToId: id.replyId,
+                  });
+                } else {
+                  setShowModal(true);
+                }
               }}
             >
               <label
@@ -96,6 +104,7 @@ function Comment({ id, user, content, replyingTo }: CommentProps) {
           )}
         </div>
       </div>
+      {showModal && <SignInModal setShowModal={setShowModal} />}
     </>
   );
 }

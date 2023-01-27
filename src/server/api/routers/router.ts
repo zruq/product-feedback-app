@@ -3,14 +3,6 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
 export const router = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
-
   getCategoryies: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.category.findMany({ select: { id: true, title: true } });
   }),
@@ -88,6 +80,27 @@ export const router = createTRPCRouter({
       },
     });
   }),
+  getSuggestionsByCategory: publicProcedure
+    .input(z.string())
+    .query(({ ctx, input }) => {
+      return ctx.prisma.productRequest.findMany({
+        where: {
+          status: { equals: "SUGGESTION" },
+          category: { title: { equals: input } },
+        },
+        orderBy: { upvotes: "desc" },
+        take: 20,
+        select: {
+          comments: { select: { _count: { select: { replies: true } } } },
+          id: true,
+          title: true,
+          description: true,
+          upvotes: true,
+          category: { select: { id: true, title: true } },
+          _count: { select: { comments: true, Upvotes: true } },
+        },
+      });
+    }),
   getRoadmapStats: publicProcedure.query(async ({ ctx }) => {
     const planned = await ctx.prisma.productRequest.count({
       where: { status: { equals: "PLANNED" } },
