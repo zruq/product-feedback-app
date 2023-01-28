@@ -134,10 +134,11 @@ function FeedbackPage() {
                   onSubmit={(e) => {
                     e.preventDefault();
                     if (status === "authenticated") {
-                      postComment.mutate({
-                        productRequestId: data.id,
-                        content: newComment,
-                      });
+                      if (newComment.trim().length > 5)
+                        postComment.mutate({
+                          productRequestId: data.id,
+                          content: newComment,
+                        });
                     } else {
                       setShowModal(true);
                     }

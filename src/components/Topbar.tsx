@@ -74,22 +74,40 @@ function Topbar({ setVisibleSuggestions, suggestions }: TopbarProps) {
     switch (i) {
       case "2":
         setVisibleSuggestions(
-          suggestionsCopy.sort((a, b) => a.upvotes - b.upvotes)
+          suggestionsCopy.sort(
+            (a, b) =>
+              a.upvotes + a._count.Upvotes - b.upvotes - b._count.Upvotes
+          )
         );
         break;
       case "3":
         setVisibleSuggestions(
-          suggestionsCopy.sort((a, b) => b._count.comments - a._count.comments)
+          suggestionsCopy.sort(
+            (a, b) =>
+              b._count.comments +
+              b.comments.reduce((acc, curr) => acc + curr._count.replies, 0) -
+              (a._count.comments +
+                a.comments.reduce((acc, curr) => acc + curr._count.replies, 0))
+          )
         );
         break;
       case "4":
         setVisibleSuggestions(
-          suggestionsCopy.sort((a, b) => a._count.comments - b._count.comments)
+          suggestionsCopy.sort(
+            (a, b) =>
+              a._count.comments +
+              a.comments.reduce((acc, curr) => acc + curr._count.replies, 0) -
+              (b._count.comments +
+                b.comments.reduce((acc, curr) => acc + curr._count.replies, 0))
+          )
         );
         break;
       default:
         setVisibleSuggestions(
-          suggestionsCopy.sort((a, b) => b.upvotes - a.upvotes)
+          suggestionsCopy.sort(
+            (a, b) =>
+              b.upvotes + b._count.Upvotes - a.upvotes - a._count.Upvotes
+          )
         );
         break;
     }

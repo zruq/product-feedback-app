@@ -66,11 +66,12 @@ function Comment({ id, user, content, replyingTo }: CommentProps) {
               onSubmit={(e) => {
                 e.preventDefault();
                 if (status === "authenticated") {
-                  addReply.mutate({
-                    content: replyContent,
-                    parentCommentId: id.commentId,
-                    replyingToId: id.replyId,
-                  });
+                  if (replyContent.trim().length > 5)
+                    addReply.mutate({
+                      content: replyContent,
+                      parentCommentId: id.commentId,
+                      replyingToId: id.replyId,
+                    });
                 } else {
                   setShowModal(true);
                 }

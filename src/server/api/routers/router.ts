@@ -10,8 +10,8 @@ export const router = createTRPCRouter({
   createFeedback: publicProcedure
     .input(
       z.object({
-        title: z.string().min(5).max(255),
-        description: z.string().min(10),
+        title: z.string().min(5).trim().max(255),
+        description: z.string().trim().min(10),
         categoryId: z.string().cuid(),
         id: z.number().optional(),
         status: z
