@@ -22,7 +22,12 @@ const Home: NextPage = () => {
   >(latestSuggestions || []);
 
   useEffect(() => {
-    if (isSuccess) setVisibleSuggestions(latestSuggestions);
+    if (isSuccess)
+      setVisibleSuggestions(
+        latestSuggestions.sort(
+          (a, b) => b.upvotes + b._count.Upvotes - a.upvotes - a._count.Upvotes
+        )
+      );
   }, [isSuccess]);
   if (isLoading) return <LoadingHome />;
 
